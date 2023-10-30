@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"stddef.h": "c",
+		"ft_itoa.C": "cpp",
+		"unistd.h": "c"
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:33:59 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/29 16:45:52 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/02 14:26:30 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ int	make_lst(t_stack *stack, char **num, int size)
 
 void print_lst(t_lst *lst)
 {
-	while (lst)
+	t_lst *temp;
+
+	temp = lst;
+	while (temp)
 	{
-		printf("-> %d\n", lst->content);
-		lst = lst->next;
+		printf("-> %d\n", temp->content);
+		temp = temp->next;
 	}
 }
 
@@ -59,7 +62,10 @@ int main(int argc, char **argv)
 	//printf("----%d----\n", make_lst(&stack, argv, argc));
 	if (make_lst(&stack, argv, argc) < 0)
 		return (printf("Error\n"), 0);
-	//printf("ok\n");
+	print_lst(stack.a);
+	ft_sa(&stack);
+	print_lst(stack.a);
+	printf("ok\n");
 	return(0);
 }
 

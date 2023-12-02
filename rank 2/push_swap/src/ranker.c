@@ -6,12 +6,12 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:52:43 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/29 17:13:37 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/02 14:25:16 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.c"
-
+#include "push_swap.h"
+/*
 void    ranker(t_lst *lst)
 {
     int rank_num;
@@ -29,3 +29,4 @@ void    ranker(t_lst *lst)
 		lst = lst->next;
 	}
 }
+*/

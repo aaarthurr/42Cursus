@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:33:59 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/02 14:26:30 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/02 16:52:42 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	make_lst(t_stack *stack, char **num, int size)
 	}
 	if (verif_lst(stack->a) < 0)
 		return (-1);
+	ranker(stack->a);
 	return (1);
 }
 
@@ -48,7 +49,7 @@ void print_lst(t_lst *lst)
 	temp = lst;
 	while (temp)
 	{
-		printf("-> %d\n", temp->content);
+		printf("-> %d\n", temp->rank);
 		temp = temp->next;
 	}
 }

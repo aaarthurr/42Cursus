@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/02 14:16:14 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/02 17:06:59 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
+
 
 typedef struct lst_s
 {
@@ -41,6 +43,8 @@ int 	verif_lst(t_lst *lst);
 char	*ft_strchr(const char *str, int c);
 int 	verif_char(char *str);
 int		verif_strstr(char **str);
+
+void    ranker(t_lst *lst);
 
 int		make_lst(t_stack *stack, char **num, int size);
 void	print_lst(t_lst *lst);

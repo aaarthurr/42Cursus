@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:42:42 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/02 15:01:33 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/02 16:34:06 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,4 @@ void ft_sb(t_stack *stack)
 	tmp->next->content = tmp->content;
 	tmp->content = content;
 	tmp->rank = rank;
-}
-
-void ft_ss(t_stack *stack);
-{
-	
 }

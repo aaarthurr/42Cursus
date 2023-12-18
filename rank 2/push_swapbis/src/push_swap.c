@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:33:59 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/17 16:36:10 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/18 15:51:23 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 	stack.a = NULL;
 	stack.b = NULL;
 	if (argc <= 1)
-		return(printf("arguments error\n"));
+		return(printf("Arguments error\n"));
 	//printf("----%d----\n", make_lst(&stack, argv, argc));
 	if (make_lst(&stack, argv, argc) < 0)
 		return (printf("Error\n"), 0);

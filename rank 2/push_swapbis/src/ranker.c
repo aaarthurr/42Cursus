@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:52:43 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/02 17:23:33 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/19 11:18:01 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void    ranker(t_lst *lst)
             {
                 min_value = temp->content;
                 min = temp;
-                printf("min value is ->%d\n", min_value);
+                //printf("min value is ->%d\n", min_value);
             }
             temp = temp->next;
         }
-        printf("\n[rank num = %d]\n", rank_num);
-        printf("-> applied to : %d\n", min->content);
+        //printf("\n[rank num = %d]\n", rank_num);
+        //printf("-> applied to : %d\n", min->content);
         min->rank = rank_num;
         rank_num++;
-        printf("-------------------\n");
+        //printf("-------------------\n");
     }
 }

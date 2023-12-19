@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/17 16:32:18 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/19 16:21:33 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct lst_s
 {
 	struct lst_s		*next;
 	struct lst_s		*prev;
+	int					to_a;
+	int					to_b;
 	int					content;
 	int					rank;
 }				t_lst;
@@ -33,12 +35,15 @@ typedef struct stack_s
 	t_lst		*b;
 }				t_stack;
 
+int 	abs_val(int i);
+
 t_lst	*ft_lstnew(int content);
 t_lst	*ft_lstlast(t_lst *lst);
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
 void	ft_lstadd_front(t_lst **lst, t_lst *new);
 t_lst	*ft_lstdup(t_lst *src);
 void	ft_free_lst(t_lst *lst);
+int		ft_lstsize(t_lst *lst);
 
 long int		ft_atoi(char *s);
 char	**ft_split(char *str);
@@ -46,6 +51,8 @@ int 	verif_lst(t_lst *lst);
 char	*ft_strchr(const char *str, int c);
 int 	verif_char(char *str);
 int		verif_strstr(char **str);
+
+int		divide_size(t_lst *lst);
 
 void    ranker(t_lst *lst);
 
@@ -68,5 +75,15 @@ void	mv_rr(t_stack *stack);
 void	mv_rra(t_stack *stack);
 void	mv_rrb(t_stack *stack);
 void	mv_rrr(t_stack *stack);
+
+void	algo(t_stack *stack);
+void	devide(t_stack *stack);
+void	sort_trio(t_stack *stack, t_lst *a);
+
+void	calc_b(t_stack *stack);
+void	calc_a(t_stack *stack);
+t_lst	*srch_min(t_stack *stack);
+
+void	applie_mv(t_stack *stack);
 
 #endif

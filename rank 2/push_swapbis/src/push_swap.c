@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:33:59 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/18 15:51:23 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:38:06 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void print_lst(t_lst *lsta, t_lst *lstb)
 	{
 		if (tempa && tempb)
 		{
-			printf("|%d| <-> |%d|\n", tempa->rank, tempb->rank);
+			printf("|%d| <-> |%d (%d.%d)|\n", tempa->rank, tempb->rank, tempb->to_a, tempb->to_b);
 			tempa = tempa->next;
 			tempb = tempb->next;
 		}
@@ -65,7 +65,7 @@ void print_lst(t_lst *lsta, t_lst *lstb)
 		}
 		else if (tempb)
 		{
-			printf("|X| <-> |%d|\n", tempb->rank);
+			printf("|X| <-> |%d (%d.%d)|\n", tempb->rank, tempb->to_a, tempb->to_b);
 			tempb = tempb->next;
 		}
 	}
@@ -83,32 +83,11 @@ int main(int argc, char **argv)
 	//printf("----%d----\n", make_lst(&stack, argv, argc));
 	if (make_lst(&stack, argv, argc) < 0)
 		return (printf("Error\n"), 0);
-	print_lst(stack.a, stack.b);
-	mv_pb(&stack);
-	print_lst(stack.a, stack.b);
-	mv_pb(&stack);
-	print_lst(stack.a, stack.b);
-	mv_pb(&stack);
-	print_lst(stack.a, stack.b);
-	mv_sa(&stack);
-	print_lst(stack.a, stack.b);
-	mv_pb(&stack);
-	print_lst(stack.a, stack.b);
-	mv_pa(&stack);
-	print_lst(stack.a, stack.b);
-	mv_ss(&stack);
-	print_lst(stack.a, stack.b);
-	mv_ra(&stack);
-	print_lst(stack.a, stack.b);
-	mv_rb(&stack);
-	print_lst(stack.a, stack.b);
-	mv_ss(&stack);
-	print_lst(stack.a, stack.b);
-	mv_rrr(&stack);
-	print_lst(stack.a, stack.b);
+	//print_lst(stack.a, stack.b);
+	algo(&stack);
 	ft_free_lst(stack.a);
 	ft_free_lst(stack.b);
-	printf("ok\n");
+	//printf("ok\n");
 	return(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/19 16:21:33 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:22:15 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ void	calc_b(t_stack *stack);
 void	calc_a(t_stack *stack);
 t_lst	*srch_min(t_stack *stack);
 
+int	is_xtrm(t_stack *stack, t_lst *node);
+void	calc_xtrm(t_stack *stack, t_lst *lst);
+
 void	applie_mv(t_stack *stack);
+
+void adjust(t_stack *stack);
 
 #endif

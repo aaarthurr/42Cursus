@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:22:51 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/19 18:04:50 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:04:03 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void calc_a(t_stack *stack)
 			cmp = cmp->next;
 		}
 		index->to_a = i;
+		calc_xtrm(stack, index);
 		index = index->next;
 	}
 }
@@ -68,6 +69,7 @@ void applie_mv(t_stack *stack)
 		calc_a(stack);
 		to_apl = srch_min(stack);
 		//printf("will us node at rank : %d | with %d AND %d\n", to_apl->rank, to_apl->to_a, to_apl->to_b);
+		//print_lst(stack->a, stack->b);
 		while (to_apl->to_a != 0)
 		{
 			if (to_apl->to_a < 0)
@@ -94,7 +96,13 @@ void applie_mv(t_stack *stack)
 				mv_rb(stack);
 			}
 		}
-		mv_pa(stack);
+		if (is_xtrm(stack, to_apl))
+		{
+			mv_pa(stack);
+			mv_ra(stack);
+		}
+		else
+			mv_pa(stack);
 	}
 }
 

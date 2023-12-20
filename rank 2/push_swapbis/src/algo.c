@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:30:22 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/19 18:01:32 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:22:38 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void algo(t_stack *stack)
 	devide(stack);
 	sort_trio(stack, stack->a);
 	applie_mv(stack);
+	adjust(stack);
 }
 
 void devide(t_stack *stack)

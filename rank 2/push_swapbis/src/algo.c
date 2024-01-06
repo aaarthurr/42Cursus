@@ -3,44 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:30:22 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/20 15:22:38 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/01 21:11:13 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
-void algo(t_stack *stack)
+void	algo(t_stack *stack)
 {
-	devide(stack);
-	sort_trio(stack, stack->a);
-	applie_mv(stack);
-	adjust(stack);
+	if (is_sorted(stack) == 1)
+		return ;
+	if (lsize(stack->a) <= 10)
+		lil_sort(stack);
+	else
+	{
+		devide(stack, 1, 0);
+		sort_trio(stack, stack->a);
+		applie_mv(stack);
+		adjust(stack);
+	}
 }
 
-void devide(t_stack *stack)
+void	devide(t_stack *stack, int i, int j)
 {
-	int i;
-	int j;
-	int size;
-	int div;
+	int	size;
+	int	div;
 
 	div = divide_size(stack->a);
-	size = ft_lstsize(stack->a);
-	i = 1;
-	j = 0;
-	while (ft_lstsize(stack->a) > 3)
+	size = lsize(stack->a);
+	while (lsize(stack->a) > 3)
 	{
 		if (stack->a->rank <= (size / div) * i)
 		{
-			mv_pb(stack);
-			if (stack->a->rank > (size / div) * (i + 1))
-				mv_rr(stack);
-			else
-				mv_rb(stack);
-			j++;
+			j = j + devide_bis(stack, size, div, i);
 		}
 		else if (stack->a->rank <= (size / div) * (i + 1))
 		{
@@ -49,45 +47,52 @@ void devide(t_stack *stack)
 		}
 		else
 			mv_ra(stack);
-		
 		if (j >= (size / div) * 2)
 		{
 			i += 2;
 			j = 0;
 		}
-		//print_lst(stack->a, stack->b);
 	}
 }
 
-void sort_trio(t_stack *stack, t_lst *a)
+int	devide_bis(t_stack *stack, int size, int div, int i)
 {
-	if ((a->rank > a->next->rank && a->rank < a->next->next->rank) && 
-		(a->next->rank < a->rank && a->next->rank < a->next->next->rank))
+	mv_pb(stack);
+	if (stack->a->rank > (size / div) * (i + 1))
+		mv_rr(stack);
+	else
+		mv_rb(stack);
+	return (1);
+}
+
+void	sort_trio(t_stack *stack, t_lst *a)
+{
+	if ((a->rank > a->next->rank && a->rank < a->next->next->rank)
+		&& (a->next->rank < a->rank && a->next->rank < a->next->next->rank))
 		mv_sa(stack);
-	else if ((a->rank > a->next->rank && a->rank > a->next->next->rank) && 
-		(a->next->rank < a->rank && a->next->rank > a->next->next->rank))
+	else if ((a->rank > a->next->rank && a->rank > a->next->next->rank)
+		&& (a->next->rank < a->rank && a->next->rank > a->next->next->rank))
 	{
 		mv_sa(stack);
 		mv_rra(stack);
 	}
-	else if ((a->rank > a->next->rank && a->rank > a->next->next->rank) && 
-		(a->next->rank < a->rank && a->next->rank < a->next->next->rank))
+	else if ((a->rank > a->next->rank && a->rank > a->next->next->rank)
+		&& (a->next->rank < a->rank && a->next->rank < a->next->next->rank))
 		mv_ra(stack);
-	else if ((a->rank < a->next->rank && a->rank < a->next->next->rank) && 
-		(a->next->rank > a->rank && a->next->rank > a->next->next->rank))
+	else if ((a->rank < a->next->rank && a->rank < a->next->next->rank)
+		&& (a->next->rank > a->rank && a->next->rank > a->next->next->rank))
 	{
 		mv_sa(stack);
 		mv_ra(stack);
 	}
-	else if ((a->rank < a->next->rank && a->rank > a->next->next->rank) && 
-		(a->next->rank > a->rank && a->next->rank > a->next->next->rank))
+	else if ((a->rank < a->next->rank && a->rank > a->next->next->rank)
+		&& (a->next->rank > a->rank && a->next->rank > a->next->next->rank))
 		mv_rra(stack);
-	
 }
 
-int divide_size(t_lst *lst)
+int	divide_size(t_lst *lst)
 {
-	if (ft_lstsize(lst) <= 200)
+	if (lsize(lst) <= 200)
 		return (4);
 	else
 		return (8);

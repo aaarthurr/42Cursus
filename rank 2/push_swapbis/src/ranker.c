@@ -1,18 +1,18 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ranker.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 16:52:43 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/19 11:18:01 by arpages          ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   ranker.c										   :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: arthur <arthur@student.42.fr>			  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2023/11/29 16:52:43 by arpages		   #+#	#+#			 */
+/*   Updated: 2023/12/27 15:02:20 by arthur		   ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
-int	ft_lstsize(t_lst *lst)
+int	lsize(t_lst *lst)
 {
 	int		i;
 	t_lst	*next;
@@ -29,34 +29,30 @@ int	ft_lstsize(t_lst *lst)
 	return (i);
 }
 
-void    ranker(t_lst *lst)
+void	ranker(t_lst *lst)
 {
-    int rank_num;
-    int min_value;
-    int size;
-    t_lst      *temp;
-    t_lst      *min;
+	int		rank_num;
+	int		min_value;
+	int		size;
+	t_lst	*temp;
+	t_lst	*min;
 
-    size = ft_lstsize(lst);
-    rank_num = 1;
-    while (size-- > 0)
+	size = lsize(lst);
+	rank_num = 1;
+	while (size-- > 0)
 	{
-        temp = lst;
-        min_value = INT_MAX;
+		temp = lst;
+		min_value = INT_MAX;
 		while (temp != NULL)
-        {
-            if (min_value > temp->content && temp->rank == -1)
-            {
-                min_value = temp->content;
-                min = temp;
-                //printf("min value is ->%d\n", min_value);
-            }
-            temp = temp->next;
-        }
-        //printf("\n[rank num = %d]\n", rank_num);
-        //printf("-> applied to : %d\n", min->content);
-        min->rank = rank_num;
-        rank_num++;
-        //printf("-------------------\n");
-    }
+		{
+			if (min_value > temp->content && temp->rank == -1)
+			{
+				min_value = temp->content;
+				min = temp;
+			}
+			temp = temp->next;
+		}
+		min->rank = rank_num;
+		rank_num++;
+	}
 }

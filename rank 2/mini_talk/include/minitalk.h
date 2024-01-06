@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Created: 2024/01/02 18:13:20 by arthur            #+#    #+#             */
+/*   Updated: 2024/01/03 16:17:43 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-long int	ft_atoi(char *s)
-{
-	int		sign;
-	long	r;
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <limits.h>
+# include <signal.h>
+# include "ft_printf.h"
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
-	{
-		if (*s == '-')
-			sign = -1;
-		s++;
-	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s - '0';
-		s++;
-	}
-	return (sign * r);
-}
+int	ft_atoi(char *s);
+
+#endif

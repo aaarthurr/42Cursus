@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Created: 2023/10/13 11:32:19 by arpages           #+#    #+#             */
+/*   Updated: 2023/12/26 16:55:38 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "../include/ft_printf.h"
 
-long int	ft_atoi(char *s)
+int	ft_putnbr_base(unsigned int nbr, char *base)
 {
-	int		sign;
-	long	r;
+	unsigned int	lbase;
+	unsigned int	nb;
+	int				retour;
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
+	lbase = 0;
+	nb = nbr;
+	retour = 0;
+	while (base[lbase])
+		lbase++;
+	if (nb < lbase)
+		retour += ft_putchar(base[nb]);
+	if (nb >= lbase)
 	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		retour += ft_putnbr_base(nb / lbase, base);
+		retour += ft_putnbr_base(nb % lbase, base);
 	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s - '0';
-		s++;
-	}
-	return (sign * r);
+	return (retour);
 }

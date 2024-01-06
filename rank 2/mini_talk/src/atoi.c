@@ -6,13 +6,13 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/03 16:16:52 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "../include/minitalk.h"
 
-long int	ft_atoi(char *s)
+int	ft_atoi(char *s)
 {
 	int		sign;
 	long	r;
@@ -27,8 +27,6 @@ long int	ft_atoi(char *s)
 			sign = -1;
 		s++;
 	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
 	while (*s >= '0' && *s <= '9')
 	{
 		r = r * 10 + *s - '0';

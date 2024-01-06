@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:09:38 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/29 16:50:37 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/28 17:40:36 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
-int verif_lst(t_lst *lst)
+int	verif_lst(t_lst *lst)
 {
-	t_lst   *lst_cpy;
+	t_lst	*lst_cpy;
 
 	while (lst->next)
 	{
@@ -27,7 +27,7 @@ int verif_lst(t_lst *lst)
 		}
 		lst = lst->next;
 	}
-	return(1);
+	return (1);
 }
 
 char	*ft_strchr(const char *str, int c)
@@ -46,12 +46,11 @@ char	*ft_strchr(const char *str, int c)
 	return (NULL);
 }
 
-
-int verif_char(char *str)
+int	verif_char(char *str)
 {
-	int i;
-	int count;
-		
+	int	i;
+	int	count;
+
 	i = 0;
 	count = 0;
 	while (str[i])
@@ -71,9 +70,9 @@ int verif_char(char *str)
 	return (1);
 }
 
-int verif_strstr(char **str)
+int	verif_strstr(char **str)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (str[i])

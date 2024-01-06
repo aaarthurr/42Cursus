@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Created: 2023/10/03 16:54:25 by arpages           #+#    #+#             */
+/*   Updated: 2023/12/26 17:03:49 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "../include/ft_printf.h"
 
-long int	ft_atoi(char *s)
+int	ft_strchr_boo(char *s, int c)
 {
-	int		sign;
-	long	r;
+	int	i;
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
+	i = 0;
+	while (s[i])
 	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		if (s[i] == (char)c)
+			return (1);
+		i++;
 	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s - '0';
-		s++;
-	}
-	return (sign * r);
+	if (s[i] == (char)c)
+		return (1);
+	return (0);
 }

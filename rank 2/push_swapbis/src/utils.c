@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:11:11 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/19 16:22:28 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:45:41 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
-int abs_val(int i)
+int	abs_val(int i)
 {
 	if (i < 0)
 		return (i * -1);

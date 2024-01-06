@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_putpoint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Created: 2023/10/13 11:40:52 by arpages           #+#    #+#             */
+/*   Updated: 2023/12/26 16:55:42 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "../include/ft_printf.h"
 
-long int	ft_atoi(char *s)
+int	ft_putpoint(unsigned long long nbr)
 {
-	int		sign;
-	long	r;
+	int	result;
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
+	result = 0;
+	if (nbr >= 16)
 	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		result += ft_putpoint(nbr / 16);
+		result += ft_putpoint(nbr % 16);
 	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
-	while (*s >= '0' && *s <= '9')
+	else
 	{
-		r = r * 10 + *s - '0';
-		s++;
+		if (nbr < 10)
+			result += ft_putchar(nbr + '0');
+		else if (nbr >= 10)
+			result += ft_putchar((nbr - 10) + 'a');
 	}
-	return (sign * r);
+	return (result);
 }

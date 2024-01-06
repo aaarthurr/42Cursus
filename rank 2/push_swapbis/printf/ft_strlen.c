@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:58 by arthur           ###   ########.fr       */
+/*   Created: 2023/10/02 11:45:17 by arpages           #+#    #+#             */
+/*   Updated: 2023/12/26 16:55:51 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include "../include/ft_printf.h"
 
-long int	ft_atoi(char *s)
+int	ft_strlen(const char *str)
 {
-	int		sign;
-	long	r;
+	int	i;
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
-	{
-		if (*s == '-')
-			sign = -1;
-		s++;
-	}
-	if (*s > 57 && *s < 127)
-		return (999999999999);
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s - '0';
-		s++;
-	}
-	return (sign * r);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
+
+/*
+#include <stdio.h>
+
+int main()
+{
+    char    str[] = "tst";
+    printf("%d", ft_strlen(str));
+}*/

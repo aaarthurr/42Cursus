@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_s.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:42:42 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/28 17:40:05 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/08 11:01:08 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	mv_sa(t_stack *stack)
 	if (stack->a == NULL || stack->a->next == NULL)
 		return ;
 	ft_sa(stack);
-	ft_printf("sa\n");
+	write(1, "sa\n", 3);
 }
 
 void	mv_sb(t_stack *stack)
@@ -55,7 +55,7 @@ void	mv_sb(t_stack *stack)
 	if (stack->b == NULL || stack->b->next == NULL)
 		return ;
 	ft_sb(stack);
-	ft_printf("sb\n");
+	write(1, "sb\n", 3);
 }
 
 void	mv_ss(t_stack *stack)
@@ -66,5 +66,5 @@ void	mv_ss(t_stack *stack)
 		return ;
 	ft_sa(stack);
 	ft_sb(stack);
-	ft_printf("ss\n");
+	write(1, "ss\n", 3);
 }

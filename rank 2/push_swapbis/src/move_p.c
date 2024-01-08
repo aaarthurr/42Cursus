@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_p.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:32:05 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/28 17:39:20 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/08 11:00:44 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	mv_pa(t_stack *stack)
 	rmv = stack->b;
 	stack->b = stack->b->next;
 	free(rmv);
-	ft_printf("pa\n");
+	write(1, "pa\n", 3);
 }
 
 void	mv_pb(t_stack *stack)
@@ -41,5 +41,5 @@ void	mv_pb(t_stack *stack)
 	rmv = stack->a;
 	stack->a = stack->a->next;
 	free(rmv);
-	ft_printf("pb\n");
+	write(1, "pb\n", 3);
 }

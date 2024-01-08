@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo_bis.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:22:51 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/28 17:42:00 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/08 11:10:30 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	calc_a(t_stack *stack)
 		cmp = stack->a;
 		i = 1;
 		while (cmp->next && !(index->rank > cmp->rank
-				&& index->rank < cmp->next->rank))
+			&& index->rank < cmp->next->rank))
 		{
 			if (lsize(stack->a) % 2 == 1 && (lsize(stack->a) / 2) == i)
 				i = i * -1;

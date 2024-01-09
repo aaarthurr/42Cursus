@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:30:22 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/01 21:11:13 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/09 14:22:32 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	algo(t_stack *stack)
 {
 	if (is_sorted(stack) == 1)
 		return ;
-	if (lsize(stack->a) <= 10)
+	if (lsize(stack->a) == 3)
+		sort_trio(stack, stack->a);
+	else if (lsize(stack->a) <= 10)
 		lil_sort(stack);
 	else
 	{

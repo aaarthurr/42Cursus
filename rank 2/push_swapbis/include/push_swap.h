@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/28 17:59:53 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/09 14:10:14 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			devide_bis(t_stack *stack, int size, int div, int i);
 void		sort_trio(t_stack *stack, t_lst *a);
 
 void		calc_b(t_stack *stack);
-void		calc_a(t_stack *stack);
+void		calc_a(t_stack *stack, t_lst *index);
 t_lst		*srch_min(t_stack *stack);
 
 void		duo_min(t_stack *stack, t_lst *to_apl);

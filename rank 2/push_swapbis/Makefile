@@ -84,7 +84,6 @@ make_printf:
 
 make_gnl:
 	@echo "\n🚧 $(GREEN)Compiling${CLR_END} :${YELLOW} Get_next_line ${CLR_END}... 🚧"
-	@OBJS = $(OBJS:.o) $(GNL_SRCS:.c=.o)
 
 clean:
 #	@make clean -sC $(MLX_PATH)

@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:22:51 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/08 11:10:30 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/09 14:31:05 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,26 @@ void	calc_b(t_stack *stack)
 			i = -i + 1;
 		else
 			i++;
+		calc_a(stack, index);
 		index = index->next;
 	}
 }
 
-void	calc_a(t_stack *stack)
+void	calc_a(t_stack *stack, t_lst *index)
 {
-	t_lst	*index;
-	t_lst	*cmp;
 	int		i;
+	t_lst	*cmp;
 
-	index = stack->b;
-	while (index)
+	cmp = stack->a;
+	i = 1;
+	if (is_xtrm(stack, index) >= 1)
+		calc_xtrm(stack, index, 0, 1);
+	else
 	{
-		cmp = stack->a;
-		i = 1;
-		while (cmp->next && !(index->rank > cmp->rank
-			&& index->rank < cmp->next->rank))
+		while (cmp->next)
 		{
+			if (cmp->rank < index->rank && cmp->next->rank > index->rank)
+				break ;
 			if (lsize(stack->a) % 2 == 1 && (lsize(stack->a) / 2) == i)
 				i = i * -1;
 			else if (lsize(stack->a) % 2 == 0 && (lsize(stack->a) / 2) == i)
@@ -55,8 +57,6 @@ void	calc_a(t_stack *stack)
 			cmp = cmp->next;
 		}
 		index->to_a = i;
-		calc_xtrm(stack, index, 0, 1);
-		index = index->next;
 	}
 }
 
@@ -67,7 +67,6 @@ void	applie_mv(t_stack *stack)
 	while (stack->b)
 	{
 		calc_b(stack);
-		calc_a(stack);
 		to_apl = srch_min(stack);
 		while (to_apl->to_a < 0 && to_apl->to_b < 0)
 			duo_min(stack, to_apl);

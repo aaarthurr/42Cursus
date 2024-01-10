@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 10:54:27 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/29 16:54:10 by arpages          ###   ########.fr       */
+/*   Updated: 2023/12/26 17:34:30 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 t_lst	*ft_lstnew(int content)
 {
@@ -21,6 +21,19 @@ t_lst	*ft_lstnew(int content)
 		return (NULL);
 	new->content = content;
 	new->rank = -1;
+	new->next = NULL;
+	return (new);
+}
+
+t_lst	*ft_lstdup(t_lst *src)
+{
+	t_lst	*new;
+
+	new = malloc(sizeof(t_lst));
+	if (!new)
+		return (NULL);
+	new->content = src->content;
+	new->rank = src->rank;
 	new->next = NULL;
 	return (new);
 }

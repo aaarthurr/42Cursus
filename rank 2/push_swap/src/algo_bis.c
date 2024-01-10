@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo_bis.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:22:51 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/10 10:48:04 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/10 15:21:21 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	calc_b(t_stack *stack)
 	temp = 0;
 	index = stack->b;
 	while (index)
-	{  
+	{
 		index->to_b = i;
 		index->to_a = 1;
 		if (lsize(stack->b) % 2 == 1 && (lsize(stack->b) / 2) == i)
@@ -67,7 +67,7 @@ int	calc_a(t_stack *stack, t_lst *index)
 		index->to_a = i;
 		return (abs_val(i) + abs_val(index->to_b));
 	}
-	return(-1);
+	return (-1);
 }
 
 void	applie_mv(t_stack *stack)

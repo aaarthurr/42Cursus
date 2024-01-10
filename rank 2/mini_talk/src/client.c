@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:56 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/08 09:54:11 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/09 16:13:15 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_send_bits(int pid, char i)
 		bit++;
 	}
 }
-2
+
 int	main(int argc, char **argv)
 {
 	int	pid;

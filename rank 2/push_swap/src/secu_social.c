@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   secu_social.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 15:53:54 by arpages           #+#    #+#             */
-/*   Updated: 2023/12/27 14:56:34 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/10 15:13:29 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ void	create_n_add(t_lst **lst, char **str, int i)
 	long int	content;
 
 	content = ft_atoi(str[i]);
-	if (content > INT_MAX || content < INT_MIN)
+	if (content > INT_MAX || content < INT_MIN || str_len(str[i]) > 10)
 	{
-		ft_printf("Value too big (or small)\n");
-		ft_printf("or non numerical characters\n");
+		ft_printf("error\n");
 		ft_free_lst(*lst);
 		free_strstr(str);
 		free(str);
-		exit(1);
+		exit(0);
 	}
 	else
 	{

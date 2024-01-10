@@ -25,7 +25,7 @@ $(GREEN)┗━━━━━━━━━━━━━━━━━━━━━━━
 #BASICS
 NAME = push_swap
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -g -Wall -Wextra -Werror 
 
 #COLORS
 CLR_END		:= \033[0m

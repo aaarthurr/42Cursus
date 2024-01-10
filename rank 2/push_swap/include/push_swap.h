@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/10 00:03:19 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/10 15:08:05 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ int			verif_strstr(char **str);
 
 int			divide_size(t_lst *lst);
 
+int			str_len(char *str);
+
 void		ranker(t_lst *lst);
 
 void		create_n_add(t_lst **lst, char **str, int i);
 
 int			make_lst(t_stack *stack, char **num, int size);
 void		print_lst(t_lst *lsta, t_lst *lstb);
+void		free_strstr(char **str);
 
 void		mv_sa(t_stack *stack);
 void		mv_sb(t_stack *stack);

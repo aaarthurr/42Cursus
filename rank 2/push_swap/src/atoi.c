@@ -6,16 +6,16 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/29 15:45:03 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/10 12:06:56 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
-int		ft_atoi(char *s)
+long int	ft_atoi(char *s)
 {
-	int		sign;
-	long	r;
+	int			sign;
+	long int	r;
 
 	r = 0;
 	sign = 1;
@@ -27,10 +27,12 @@ int		ft_atoi(char *s)
 			sign = -1;
 		s++;
 	}
+	if (!(*s >= 48 && *s <= 57))
+		return (99999999999);
 	while (*s >= '0' && *s <= '9')
 	{
 		r = r * 10 + *s - '0';
 		s++;
 	}
-	return (sign * (int)r);
+	return (sign * r);
 }

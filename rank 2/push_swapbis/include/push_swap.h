@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:36:08 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/09 14:10:14 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/10 00:03:19 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			devide_bis(t_stack *stack, int size, int div, int i);
 void		sort_trio(t_stack *stack, t_lst *a);
 
 void		calc_b(t_stack *stack);
-void		calc_a(t_stack *stack, t_lst *index);
+int			calc_a(t_stack *stack, t_lst *index);
 t_lst		*srch_min(t_stack *stack);
 
 void		duo_min(t_stack *stack, t_lst *to_apl);
@@ -95,7 +95,7 @@ void		opti_a(t_stack *stack, t_lst *to_apl);
 void		opti_b(t_stack *stack, t_lst *to_apl);
 
 int			is_xtrm(t_stack *stack, t_lst *node);
-void		calc_xtrm(t_stack *stack, t_lst *lst, int rank_min, int i);
+int			calc_xtrm(t_stack *stack, t_lst *lst, int rank_min, int i);
 
 void		applie_mv(t_stack *stack);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo_ter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:31:54 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/09 14:10:15 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/10 00:15:22 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_xtrm(t_stack *stack, t_lst *node)
 	return (0);
 }
 
-void	calc_xtrm(t_stack *stack, t_lst *lst, int rank_min, int i)
+int	calc_xtrm(t_stack *stack, t_lst *lst, int rank_min, int i)
 {
 	t_lst	*tmp;
 	t_lst	*max;
@@ -59,6 +59,7 @@ void	calc_xtrm(t_stack *stack, t_lst *lst, int rank_min, int i)
 		}
 		lst->to_a = rank_min;
 	}
+	return (abs_val(lst->to_a) + abs_val(lst->to_b));
 }
 
 void	adjust(t_stack *stack)

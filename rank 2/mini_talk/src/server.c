@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:52 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/11 14:23:04 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/11 15:52:59 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	displayer(int sig, siginfo_t *info, void *context)
 		bit = 0;
 		i = 0;
 	}
+	usleep(250);
 }
 
 int	main(int argc, char **argv)

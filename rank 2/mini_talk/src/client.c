@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:56 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/11 14:24:22 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/11 15:52:37 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	send_bits(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(500);
 		bit++;
+		usleep(1000);
 	}
 }
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv)
 		{
 			send_bits(pid, argv[2][i]);
 			i++;
+			usleep(250);
 		}
 		send_bits(pid, '\n');
 		signal(SIGUSR2, confirm_msg);

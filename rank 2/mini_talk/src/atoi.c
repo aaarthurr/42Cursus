@@ -6,31 +6,35 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/03 16:16:52 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/11 12:26:18 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-int	ft_atoi(char *s)
+int	ft_atoi(const char *str)
 {
-	int		sign;
-	long	r;
+	int					i;
+	int					sign;
+	unsigned long int	result;
 
-	r = 0;
+	i = 0;
 	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
+	result = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-')
 	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		sign = -1;
+		i++;
 	}
-	while (*s >= '0' && *s <= '9')
+	else if (str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		r = r * 10 + *s - '0';
-		s++;
+		result *= 10;
+		result += str[i] - '0';
+		i++;
 	}
-	return (sign * r);
+	return (result * sign);
 }

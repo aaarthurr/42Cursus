@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:56 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/09 16:13:15 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/11 14:24:22 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-void	ft_send_bits(int pid, char i)
+void	confirm_msg(int signal)
+{
+	if (signal == SIGUSR2)
+		ft_printf("message recieved\n");
+}
+
+void	send_bits(int pid, char c)
 {
 	int	bit;
 
 	bit = 0;
 	while (bit < 8)
 	{
-		if ((i & (0x01 << bit)) != 0)
+		if ((c & (0x01 << bit)))
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
@@ -39,15 +45,16 @@ int	main(int argc, char **argv)
 		pid = ft_atoi(argv[1]);
 		while (argv[2][i] != '\0')
 		{
-			ft_send_bits(pid, argv[2][i]);
+			send_bits(pid, argv[2][i]);
 			i++;
 		}
-		ft_send_bits(pid, '\n');
+		send_bits(pid, '\n');
+		signal(SIGUSR2, confirm_msg);
+		send_bits(pid, '\0');
 	}
 	else
 	{
-		ft_printf("Use the executable with :\n");
-		ft_printf("-> ./client <PID> <Message>\n");
+		ft_printf("Error\n");
 		return (1);
 	}
 	return (0);

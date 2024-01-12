@@ -6,7 +6,7 @@
 /*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:33:59 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/10 15:21:43 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/12 11:05:17 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ int	main(int argc, char **argv)
 
 	stack.a = NULL;
 	stack.b = NULL;
-	if (argc <= 1 || verif_strstr(argv) == -1)
+	if (argc <= 1)
 	{
+		return (0);
+	}
+	if (verif_strstr(argv) == -1)
+	{
+		ft_printf("Error\n");
 		return (0);
 	}
 	verif = make_lst(&stack, argv, argc);

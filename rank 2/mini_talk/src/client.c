@@ -3,60 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:56 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/11 15:52:37 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/12 18:17:02 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-void	confirm_msg(int signal)
+static int		g_recieved;
+
+static void	ft_sig_handler(int sig, siginfo_t *sinfo, void *context)
 {
-	if (signal == SIGUSR2)
-		ft_printf("message recieved\n");
+	(void) context;
+	if (sig == SIGUSR1)
+		g_recieved = 1;
+	else if (sig == SIGUSR2)
+	{
+		ft_printf("Successfully sent the message to : %d ! \n", sinfo->si_pid);
+		exit(EXIT_SUCCESS);
+	}
 }
 
-void	send_bits(int pid, char c)
+static void	send_bit(char c, int bit, int pid)
+{
+	if (c & (128 >> bit))
+	{
+		if (kill(pid, SIGUSR2) == -1)
+			ft_error("Signal can't be sent.\n");
+	}
+	else
+	{
+		if (kill(pid, SIGUSR1) == -1)
+			ft_error("Signal can't be sent.\n");
+	}
+}
+
+static void	convert(char c, int pid)
 {
 	int	bit;
+	int	time_out;
 
 	bit = 0;
+	time_out = 0;
 	while (bit < 8)
 	{
-		if ((c & (0x01 << bit)))
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
+		g_recieved = 0;
+		send_bit(c, bit, pid);
+		while (!g_recieved)
+		{
+			if (time_out >= 3)
+				ft_error("Server did not respond in time...\n");
+			time_out++;
+			sleep(1);
+		}
+		time_out = 0;
 		bit++;
-		usleep(1000);
+		usleep(100);
 	}
+}
+
+static void	send_text(char *str, int len, int pid)
+{
+	int	i;
+
+	i = 0;
+	while (i <= len)
+		convert(str[i++], pid);
 }
 
 int	main(int argc, char **argv)
 {
-	int	pid;
-	int	i;
+	int					pid;
+	struct sigaction	sact;
 
-	i = 0;
-	if (argc == 3)
-	{
-		pid = ft_atoi(argv[1]);
-		while (argv[2][i] != '\0')
-		{
-			send_bits(pid, argv[2][i]);
-			i++;
-			usleep(250);
-		}
-		send_bits(pid, '\n');
-		signal(SIGUSR2, confirm_msg);
-		send_bits(pid, '\0');
-	}
-	else
-	{
-		ft_printf("Error\n");
-		return (1);
-	}
+	if (argc != 3)
+		ft_error("Error !\nUSE : ./client <PID> <message>\n");
+	pid = ft_atoi(argv[1]);
+	if (!pid)
+		ft_error("Pid error.\n");
+	sigemptyset(&sact.sa_mask);
+	sact.sa_flags = SA_SIGINFO;
+	sact.sa_sigaction = ft_sig_handler;
+	sigaction(SIGUSR1, &sact, 0);
+	sigaction(SIGUSR2, &sact, 0);
+	send_text(argv[2], ft_strlen(argv[2]), pid);
 	return (0);
 }

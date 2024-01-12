@@ -46,9 +46,9 @@ PRINTF_PRE = printf/
 GNL_PRE = gnl/
 
 #FILES
-FILES_SRV = server.c atoi.c
+FILES_SRV = server.c utils.c
 
-FILES_CLT = client.c atoi.c
+FILES_CLT = client.c utils.c
 
 PRINTF_FILES = ft_printf.c ft_printf2.c ft_putunbr.c \
 				ft_strchr.c ft_strlen.c ft_write.c \

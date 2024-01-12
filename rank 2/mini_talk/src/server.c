@@ -3,54 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:52 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/11 15:52:59 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/12 18:18:04 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-void	displayer(int sig, siginfo_t *info, void *context)
+static void	displayer(char c)
 {
-	static int	bit;
-	static int	i;
+	static char	*str;
+	char		*tmp;
 
-	(void)context;
-	if (sig == SIGUSR1)
-		i |= (0x01 << bit);
-	bit++;
-	if (bit == 8)
+	if (!str)
 	{
-		if (i == '\0')
-		{
-			kill(info->si_pid, SIGUSR2);
-			ft_printf("wainting for a message...\n");
-		}
-		ft_printf("%c", i);
-		bit = 0;
-		i = 0;
+		str = malloc(1);
+		*str = '\0';
 	}
-	usleep(250);
+	tmp = malloc(2);
+	*tmp = c;
+	*(tmp + 1) = '\0';
+	str = ft_strjoin(str, tmp);
+	if (c == 0)
+	{
+		ft_printf("%s\n", str);
+		free(str);
+		str = NULL;
+		write(1, "->", 2);
+	}
+	free(tmp);
 }
 
-int	main(int argc, char **argv)
+void	ft_sig_handler(int sig, siginfo_t *sinfo, void *context)
 {
-	struct sigaction	s_sigaction;
+	static int		c;
+	static int		bit;
+	static pid_t	client_pid;
 
-	(void)argv;
-	if (argc != 1)
+	(void) context;
+	if (!c || client_pid != sinfo->si_pid)
 	{
-		ft_printf("Error\n");
-		return (1);
+		c = 255;
+		bit = 0;
 	}
-	ft_printf("Server PID: %d\n", getpid());
-	s_sigaction.sa_sigaction = displayer;
-	s_sigaction.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &s_sigaction, 0);
-	sigaction(SIGUSR2, &s_sigaction, 0);
+	client_pid = sinfo->si_pid;
+	if (sig == SIGUSR1)
+		c ^= (128 >> bit);
+	else if (sig == SIGUSR2)
+		c |= (128 >> bit);
+	if (++bit == 8)
+	{
+		displayer(c);
+		if (c == 0)
+			kill(client_pid, SIGUSR2);
+		bit = 0;
+		c = 255;
+	}
+	usleep(100);
+	kill(client_pid, SIGUSR1);
+}
+
+int	main(void)
+{
+	int					pid;
+	struct sigaction	sact;
+
+	pid = getpid();
+	sigemptyset(&sact.sa_mask);
+	sact.sa_flags = SA_SIGINFO;
+	sact.sa_sigaction = ft_sig_handler;
+	sigaction(SIGUSR1, &sact, 0);
+	sigaction(SIGUSR2, &sact, 0);
+	ft_printf("PID:[%d]\n\n", pid);
+	write(1, "->", 2);
 	while (1)
 		pause();
-	return (0);
+	return (EXIT_FAILURE);
 }

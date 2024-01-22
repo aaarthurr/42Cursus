@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:04:56 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/12 18:17:02 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:26:06 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 	struct sigaction	sact;
 
 	if (argc != 3)
-		ft_error("Error !\nUSE : ./client <PID> <message>\n");
+		ft_error("USE : ./client <PID> <message>\n");
 	pid = ft_atoi(argv[1]);
 	if (!pid)
 		ft_error("Pid error.\n");

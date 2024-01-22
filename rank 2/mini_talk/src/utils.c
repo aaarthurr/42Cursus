@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:44:46 by arpages           #+#    #+#             */
-/*   Updated: 2024/01/12 18:17:27 by arthur           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:26:31 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_atoi(const char *str)
 
 void	ft_error(char *str)
 {
-	ft_printf("An error occurred :%s", str);
+	ft_printf("Error ! -> %s", str);
 	exit(EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:41:49 by lle-saul          #+#    #+#             */
-/*   Updated: 2023/11/23 14:21:24 by lle-saul         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:59:06 by lle-saul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,12 @@ int	ft_find_char(const char *s1, const char c)
 	return (0);
 }
 
-static void	ft_cote(int *val, char c)
+void	ft_cote(int *val, char c)
 {
-	static char	quote = 0;
-
-	if (quote == 0 && (c == '"' || c == '\''))
-		c = quote;
-	if (*val == 1 && c == quote)
-	{
+	if (*val == c && *val > 0)
 		*val = 0;
-		quote = 0;
-	}
-	else if (*val == 0 && c == quote)
-		*val = 1;
-		
+	else if (*val == 0 && (c == '"' || c == '\''))
+		*val = c;
 }
 
 static int	ft_countwords(char const *s, char *c, int *trig_cote)
@@ -71,24 +63,22 @@ static int	ft_countwords(char const *s, char *c, int *trig_cote)
 	return (count);
 }
 
-static char	*ft_splitword(char const *s, int *index, int i)
+static char	*ft_splitword(char const *s, int *index, int i, int bol_quote)
 {
 	char	*str;
-	char	quote;
+	int		trig;
+	int		old_trig;
 	int		j;
 
-	quote = 0;
-	if (s[i - 1] == '"' || s[i - 1] == '\'')
-	{
-		++*index;
-		i--;
-		quote = s[i];
-	}
+	trig = 0;
 	str = malloc((i - *index + 1) * sizeof(char));
 	j = 0;
 	while (*index < i)
 	{
-		if (s[*index] != quote || quote == 0)
+		old_trig = trig;
+		ft_cote(&trig, s[*index]);
+		if ((s[*index] != '"' && s[*index] != '\'') || trig == old_trig
+			|| bol_quote == 1)
 			str[j++] = s[*index];
 		++*index;
 	}
@@ -97,7 +87,7 @@ static char	*ft_splitword(char const *s, int *index, int i)
 	return (str);
 }
 
-char	**ft_split(char *s, char *c)
+char	**ft_split(char *s, char *c, int bol_quote)
 {
 	char	**tab;
 	int		i;
@@ -105,6 +95,8 @@ char	**ft_split(char *s, char *c)
 	int		index;
 	int		trig_cote;
 
+	if (s == NULL)
+		return (NULL);
 	tab = malloc(sizeof(char *) * (ft_countwords(s, c, &trig_cote) + 1));
 	if (!tab)
 		return (NULL);
@@ -116,8 +108,9 @@ char	**ft_split(char *s, char *c)
 		ft_cote(&trig_cote, s[i]);
 		if (ft_find_char(c, s[i]) == 0 && index == -1)
 			index = i;
-		else if (((ft_find_char(c, s[i]) == 1 && trig_cote != 1) || i == ft_strlen(s)) && index != -1)
-			tab[j++] = ft_splitword(s, &index, i);
+		else if (((ft_find_char(c, s[i]) == 1 && trig_cote == 0)
+				|| i == ft_strlen(s)) && index != -1)
+			tab[j++] = ft_splitword(s, &index, i, bol_quote);
 	}
 	tab[j] = NULL;
 	return (tab);

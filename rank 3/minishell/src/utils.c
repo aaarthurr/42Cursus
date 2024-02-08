@@ -6,34 +6,51 @@
 /*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:44:18 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/11 14:44:18 by lle-saul         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:39:28 by lle-saul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_signal(void)
+int	ft_strlen(char *str)
 {
-	if (signal(SIGINT, exec_signal) == SIG_ERR)
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	str = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!str)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		perror("minishell");
-		exit(1);
+		str[i] = s[i];
+		i++;
 	}
+	str[i] = '\0';
+	return (str);
 }
 
-void	exec_signal(int signum)
-{
-	(void)signum;
-	printf("\nminishell>");
-}
-
-int	ft_strcmp_shell(const char *s1, const char *s2)
+int	ft_strcmp_shell(const char *s1, const char *s2, int n)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	j = 0;
+	if (!s1)
+		return (0);
 	while (s1[j] == ' ')
 		j++;
 	while (s1[j] != '\0' && s1[j] == s2[i] && s2[i] != '\0')
@@ -41,7 +58,11 @@ int	ft_strcmp_shell(const char *s1, const char *s2)
 		i++;
 		j++;
 	}
-	if (s2[i] == '\0')
+	if (s2[i] == '\0' && (s1[j] == '\0' || s1[j] == ' ') && n == 0)
+		return (1);
+	if (s2[i] == '\0' && n == 1)
+		return (1);
+	if (s2[i] == '\0' && s1[j] == '=' && n == 2)
 		return (1);
 	return (0);
 }

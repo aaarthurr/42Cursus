@@ -6,29 +6,16 @@
 /*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:23:21 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/12 13:23:21 by lle-saul         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:29:36 by lle-saul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_clean_line2(char *str, int i)
-{
-	int	index;
-
-	index = i - 1;
-	while (str[i] == ' ' && str[i] != '\0')
-		i++;
-	i = i + get_len_quote(str + i);
-	if (str[i] == '\0')
-		i--;
-	return (ft_extract_str(str, index, i));
-}
-
-
 char	*ft_clean_line(char *str)
 {
 	char	trig;
+	char	*new;
 	int		i;
 
 	i = 0;
@@ -41,7 +28,9 @@ char	*ft_clean_line(char *str)
 			trig = 0;
 		if ((str[i] == '>' || str[i] == '<') && trig == 0)
 		{
-			str = ft_clean_line2(str, i + 1);
+			new = ft_clean_line2(str, i + 1);
+			free(str);
+			str = new;
 			i = 0;
 		}
 		else
@@ -50,72 +39,77 @@ char	*ft_clean_line(char *str)
 	return (str);
 }
 
-void	fork_exec(char **env, char *line, int (*function)(char **, char **), char **fd)
+void	fork_exec(char ***env, char *line, int *fd)
 {
 	pid_t	pid;
 
-	pid = fork();
-	if (pid == -1)
-		perror("minishell");
-	if (pid == 0)
+	if (ft_case_change_env(env, line) == 1)
 	{
-		if (!fd)
-			return ;
-		line = ft_clean_line(line);
-		if (fd[0])
-			ft_redirect_fd(fd[0], STDIN_FILENO, NULL, 0);
-		if (fd[1])
-			ft_redirect_fd(fd[1], STDOUT_FILENO, NULL, 1);
-		ft_free_fd(fd);
-		if (function(ft_split(line, " "), env) == 1)
-			exit(1);
+		pid = fork();
+		if (pid == -1)
+			perror("minishell");
+		if (pid == 0)
+		{
+			recover_signal();
+			fd = get_redirec(line);
+			if (fd[0] < 0 || fd[1] < 0)
+			{
+				free(fd);
+				ft_free_tab(*env);
+				exit(1);
+			}
+			ft_redirect_fd(fd[0], STDIN_FILENO, fd);
+			ft_redirect_fd(fd[1], STDOUT_FILENO, fd);
+			free(fd);
+			ft_case(*env, line, NULL);
+		}
+		waitpid(pid, &g_res_error, 0);
+		g_res_error = WEXITSTATUS(g_res_error);
 	}
-	waitpid(pid, NULL, 0);
-	ft_free_fd(fd);
 }
 
-int	ft_exec_prog(char **cmd, char **env)
+int	ft_exec_prog(char **cmd, char **env, char *line)
 {
-	char	*pwd;
-	char	*path;
 	int		res;
 
 	res = 0;
+	free(line);
 	if (!cmd)
-		return(perror("minishell"), 1);
-	pwd = getcwd(NULL, 1000);
-	if (!pwd)
-		return(perror("minishell"), ft_free_tab(cmd), 1);
-	path = ft_strjoin(pwd, cmd[0] + 1);
-	if (!path)
-		return(perror("minishell"), ft_free_tab(cmd), free(pwd), 1);
-	res = execve(path, cmd, env);
+		return (perror("minishell"), ft_free_var(cmd, NULL, NULL, env), 1);
+	if (access(cmd[0], X_OK) == -1)
+		return (perror("minishell"), ft_free_var(cmd, NULL, NULL, env), 127);
+	res = execve(cmd[0], cmd, env);
 	if (res == -1)
-		perror("minishell");
-	free(pwd);
-	free(path);
+		return (perror("minishell"), ft_free_var(cmd, NULL, NULL, env), 1);
 	ft_free_tab(cmd);
-	exit(1);
+	ft_free_tab(env);
+	exit(res);
 }
 
-int	ft_exec_cmd(char **cmd, char **env)
+int	ft_exec_cmd(char **cmd, char **env, char *line)
 {
 	char	*path;
-	char	**env_path;
+	char	**env_path;	
 	int		res;
 
 	res = 0;
-	env_path = ft_split(env[ft_path_env(env)], ":");
-	if (!env_path)
-		return (perror("minishell"), ft_free_tab(env_path), ft_free_tab(cmd), 1);
-	path = ft_get_path(env_path, cmd[0]);
+	free(line);
+	if (cmd[0] == NULL)
+		return (free(cmd), ft_free_tab(env), g_res_error);
+	if (access(cmd[0], X_OK) == 0)
+		path = ft_strdup(cmd[0]);
+	else
+	{
+		env_path = ft_split(env[ft_path_env(env, cmd[0])], ":", 0);
+		if (!env_path)
+			return (ft_free_var(cmd, env_path, NULL, env), 1);
+		path = ft_get_path(env_path, cmd[0]);
+	}
 	if (!path)
-		return (ft_putstr("minishell: command not found: ", 2), ft_putstr(cmd[0],
-				2), ft_putchar('\n', 2), ft_free_tab(env_path),
-				ft_free_tab(cmd), 1);
+		return (cmd_error(cmd[0]), ft_free_var(cmd, env_path, NULL, env), 127);
 	res = execve(path, cmd, env);
-	ft_free_var(cmd, env_path, path);
+	ft_free_var(cmd, env_path, path, env);
 	if (res == -1)
 		return (perror("minishell"), 1);
-	return (0);
+	return (res);
 }

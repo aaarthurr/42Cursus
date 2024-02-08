@@ -6,13 +6,35 @@
 /*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:07:42 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/13 17:07:42 by lle-saul         ###   ########.fr       */
+/*   Updated: 2024/02/04 21:03:21 by lle-saul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_path_env(char **env)
+void	cmd_error(char *cmd)
+{
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	printf("\033[1;91mminishell:\033[0;91m %s: \033[0m", cmd);
+	printf("command not found !\n");
+}
+
+char	*ft_clean_line2(char *str, int i)
+{
+	int	index;
+
+	index = i - 1;
+	if (str[i] == '<' || str[i] == '>')
+		i++;
+	while (str[i] == ' ' && str[i] != '\0')
+		i++;
+	i = i + get_len_quote(str + i);
+	if (str[i] == '\0')
+		i--;
+	return (ft_extract_str(str, index, i));
+}
+
+int	ft_path_env(char **env, char *cmd)
 {
 	int	i;
 
@@ -23,28 +45,21 @@ int	ft_path_env(char **env)
 			return (i);
 		i++;
 	}
+	if (env[i] == NULL)
+		cmd_error(cmd);
 	return (i);
 }
 
-void	ft_free_var(char **cmd, char **env_path, char *path)
+void	ft_free_var(char **cmd, char **env_path, void *path, char **env)
 {
-	ft_free_tab(cmd);
-	ft_free_tab(env_path);
+	if (cmd)
+		ft_free_tab(cmd);
+	if (env_path)
+		ft_free_tab(env_path);
+	if (env)
+		ft_free_tab(env);
 	if (path)
 		free(path);
-}
-
-void	ft_free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
 }
 
 char	*ft_get_path(char **path, char *cmd)
@@ -64,32 +79,4 @@ char	*ft_get_path(char **path, char *cmd)
 		i++;
 	}
 	return (free(new_cmd), NULL);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*tab;
-	size_t	size;
-
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	i = 0;
-	tab = malloc(size * sizeof(char));
-	if (!tab)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		tab[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		tab[i] = s2[j];
-		i++;
-		j++;
-	}
-	tab[i] = '\0';
-	return (tab);
 }

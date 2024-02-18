@@ -24,3 +24,7 @@ void	*func2(void *arg)
 	}
 	pthread_exit(NULL);
 }
+
+	pthread_create(&t2, NULL, func2, NULL);
+
+	pthread_join(t2, NULL);

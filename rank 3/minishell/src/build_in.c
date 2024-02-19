@@ -1,42 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   build_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 15:04:22 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/22 15:35:13 by arthur           ###   ########.fr       */
+/*   Created: 2024/01/22 15:04:53 by arthur            #+#    #+#             */
+/*   Updated: 2024/01/22 16:33:47 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tab(char **tab)
+void	ft_pwd(char **tab)
 {
-	int	i;
-
+	int i;
+	char *tmp;
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		printf("%s\n", tab[i]);
+		if (ft_strcmp_shell(tab[i], "PWD=") == 1)
+		{
+			tmp = tab[i];
+			tmp += 4;
+			printf("%s\n", tmp);
+		}
 		i++;
 	}
 }
 
-void	ft_putchar(char c, int fd)
+void	ft_echo(char *line)
 {
-	write(fd, &c, 1);
-}
+	char	**temp;
+	int		i;
+	int		flag;
 
-void	ft_putstr(char *str, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
+	i = 1;
+	flag = 0;
+	temp = ft_split(line, " ");
+	if (ft_strcmp_shell(temp[1], "-n") == 1)
 	{
-		ft_putchar(str[i], fd);
+		i++;
+		flag = 1;
+	}
+	while (temp[i] != NULL)
+	{
+		ft_putstr(temp[i], 1);
+		ft_putchar(' ', 1);
 		i++;
 	}
+	if (flag == 0)
+		ft_putchar('\n', 1);
 }

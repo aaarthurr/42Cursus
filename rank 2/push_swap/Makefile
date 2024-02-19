@@ -29,9 +29,9 @@ CFLAGS = -g -Wall -Wextra -Werror
 
 #COLORS
 CLR_END		:= \033[0m
-RED		    := \033[1;31m
+RED		    := \033[1;5;31m
 GREEN		:= \033[1;32m
-YELLOW		:= \033[1;33m
+YELLOW		:= \033[24;33m
 BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 
@@ -60,7 +60,7 @@ GNL_FILES = get_next_line.c get_next_line_utils.c \
 SRCS = $(addprefix $(SRC_PRE), $(FILES))
 PRINTF_SRCS = $(addprefix $(PRINTF_PRE), $(PRINTF_FILES))
 GNL_SRCS = $(addprefix $(GNL_PRE), $(GNL_FILES))
-LIBFT_SRCS = $(addprefix $(LIBFT_PRE), $(LIBFT_FILES))
+LIBFT_SRCS = $(addprefix$(LIBFT_PRE), $(LIBFT_FILES))
 
 OBJS = $(SRCS:.c=.o) $(PRINTF_SRCS:.c=.o)
 

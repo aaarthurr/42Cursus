@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:20:11 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/09 18:20:11 by lle-saul         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:16:33 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,8 @@ char	**ft_extract_cmd(char **cmd);
 char	**ft_split(char *s, char *c);
 int		ft_find_char(const char *s1, const char c);
 
-#endif
+/*build_in.c*/
+void	ft_pwd(char **env);
+void	ft_echo(char *line);
 
+#endif

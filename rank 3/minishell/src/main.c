@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:19:45 by lle-saul          #+#    #+#             */
-/*   Updated: 2024/01/22 10:31:21 by arpages          ###   ########.fr       */
+/*   Updated: 2024/01/22 16:17:03 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ void	ft_case(char **env, char *line, void (*ft)(char **, char *, int (*fonction)
 			ft(env, line, ft_exec_prog, get_redirec(line));
 		else if (ft_strcmp_shell(line, "env") == 1)
 			print_tab(env);
+		else if (ft_strcmp_shell(line, "pwd") == 1)
+			ft_pwd(env);
+		else if (ft_strcmp_shell(line, "echo") == 1)
+			ft_echo(line);
 		else
 			ft(env, line, ft_exec_cmd, get_redirec(line));
 	}

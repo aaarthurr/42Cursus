@@ -3,41 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   build_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD:rank 3/minishell/src/build_in.c
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 15:04:53 by arthur            #+#    #+#             */
-/*   Updated: 2024/01/22 16:33:47 by arthur           ###   ########.fr       */
-=======
 /*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:04:53 by arthur            #+#    #+#             */
 /*   Updated: 2024/02/05 16:31:23 by lle-saul         ###   ########.fr       */
->>>>>>> 61fe67aa2fb57ffbe7b16b3abf3f8b1f3a6738b8:rank3/minishell/src/build_in.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD:rank 3/minishell/src/build_in.c
-void	ft_pwd(char **tab)
-{
-	int i;
-	char *tmp;
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		if (ft_strcmp_shell(tab[i], "PWD=") == 1)
-		{
-			tmp = tab[i];
-			tmp += 4;
-			printf("%s\n", tmp);
-		}
-		i++;
-	}
-}
-
-=======
 /*fonction pwd du shell*/
 void	ft_pwd(void)
 {
@@ -48,7 +22,6 @@ void	ft_pwd(void)
 }
 
 /*/fonction echo du shell*/
->>>>>>> 61fe67aa2fb57ffbe7b16b3abf3f8b1f3a6738b8:rank3/minishell/src/build_in.c
 void	ft_echo(char *line)
 {
 	char	**temp;
@@ -57,13 +30,8 @@ void	ft_echo(char *line)
 
 	i = 1;
 	flag = 0;
-<<<<<<< HEAD:rank 3/minishell/src/build_in.c
-	temp = ft_split(line, " ");
-	if (ft_strcmp_shell(temp[1], "-n") == 1)
-=======
 	temp = ft_split(line, " ", 0);
 	if (ft_strcmp_shell(temp[1], "-n", 0) == 1)
->>>>>>> 61fe67aa2fb57ffbe7b16b3abf3f8b1f3a6738b8:rank3/minishell/src/build_in.c
 	{
 		i++;
 		flag = 1;
@@ -71,13 +39,6 @@ void	ft_echo(char *line)
 	while (temp[i] != NULL)
 	{
 		ft_putstr(temp[i], 1);
-<<<<<<< HEAD:rank 3/minishell/src/build_in.c
-		ft_putchar(' ', 1);
-		i++;
-	}
-	if (flag == 0)
-		ft_putchar('\n', 1);
-=======
 		i++;
 		if (temp[i] != NULL)
 			ft_putchar(' ', 1);
@@ -160,5 +121,4 @@ void	ft_cd(char ***tab, char **cmd)
 	}
 	free(home);
 	ft_free_tab(cmd);
->>>>>>> 61fe67aa2fb57ffbe7b16b3abf3f8b1f3a6738b8:rank3/minishell/src/build_in.c
 }

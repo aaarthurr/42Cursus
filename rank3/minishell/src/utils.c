@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lle-saul <lle-saul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:44:18 by lle-saul          #+#    #+#             */
-<<<<<<< HEAD:rank 3/minishell/src/utils.c
-/*   Updated: 2024/01/22 15:23:29 by arthur           ###   ########.fr       */
-=======
 /*   Updated: 2024/02/03 19:39:28 by lle-saul         ###   ########.fr       */
->>>>>>> 61fe67aa2fb57ffbe7b16b3abf3f8b1f3a6738b8:rank3/minishell/src/utils.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +53,7 @@ int	ft_strcmp_shell(const char *s1, const char *s2, int n)
 		return (0);
 	while (s1[j] == ' ')
 		j++;
-	while (s1[j] != '\0' && s2[i] != '\0' && s1[j] == s2[i])
+	while (s1[j] != '\0' && s1[j] == s2[i] && s2[i] != '\0')
 	{
 		i++;
 		j++;

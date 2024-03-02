@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:05:44 by arpages           #+#    #+#             */
-/*   Updated: 2024/02/22 22:14:16 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/02 16:20:59 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,17 @@ int	get_time(t_table *table)
 	return (usec / 1000);
 }
 
-int	psleep(int mtime, t_philo *philo)
+int	psleep(int cible, t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	while (i < mtime / 5)
+	while (get_time(philo->table) < cible)
 	{
 		if (get_time(philo->table) - philo->last_meal > philo->table->time_death || philo->table->death == 1)
 		{
 			printf ("\033[31m%d  %d  Died\033[0m\n", get_time(philo->table), philo->name);
-			philo->table->death = 1;
+			philo->phase = 3;
 			return (1);
 		}
-		usleep(5000);
-		i++;
+		usleep(2500);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 15:20:24 by arpages           #+#    #+#             */
-/*   Updated: 2024/02/27 15:12:26 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/02 16:33:06 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void	create_thread(t_table *table);
 void	wait(t_table *table);
 
 int		eat(t_philo *philo);
+void	end_simu(t_table *table);
+
+void	eat_bis(t_philo *philo, int entry);
 
 int		psleep(int mtime, t_philo *philo);
 

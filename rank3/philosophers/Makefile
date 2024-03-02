@@ -25,7 +25,7 @@ $(GREEN)┗━━━━━━━━━━━━━━━━━━━━━━━
 #BASICS
 NAME = philo
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror 
+CFLAGS = -g -Wall -Wextra -Werror -pthread
 
 #COLORS
 CLR_END		:= \033[0m
@@ -45,7 +45,7 @@ PRINTF_PRE = printf/
 GNL_PRE = gnl/
 
 #FILES
-FILES = philo.c  utils.c  threading.c utils_bis.c#pubelle.c
+FILES = philo.c  utils.c utils_bis.c threading.c threading_bis.c
 
 PRINTF_FILES = ft_printf.c ft_printf2.c ft_putunbr.c \
 				ft_strchr.c ft_strlen.c ft_write.c \

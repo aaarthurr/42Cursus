@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   threading.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:45:30 by arthur            #+#    #+#             */
-/*   Updated: 2024/02/27 15:17:18 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/02 16:38:57 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include <pthread.h>
 
 void	*living(void *temp)
 {
@@ -21,11 +22,11 @@ void	*living(void *temp)
 	philo = (t_philo *)temp;
 	while (philo->table->death != 1 && i != philo->table->turn)
 	{
-		if (get_time(philo->table) - philo->last_meal > philo->table->time_death || philo->table->death == 1)
+		if (philo->phase == 3 || philo->table->death > 0)
 		{
 			printf ("\033[31m%d  %d  Died\033[0m\n", get_time(philo->table), philo->name);
-			philo->table->death = 1;
-			return (NULL);
+			philo->table->death++;
+			break ;
 		}
 		else if (eat(philo) == 1)
 		{
@@ -38,10 +39,12 @@ void	*living(void *temp)
 			i++;
 			printf ("%d  %d  is sleeping\n", get_time(philo->table), philo->name);
 			philo->phase = 0;
-			psleep(philo->table->time_sleep, philo);
+			psleep(get_time(philo->table) + philo->table->time_sleep, philo);
 		}
 	}
 	printf("\033[36m%d FINISHED HIS CICLE\033[0m\n", philo->name);
+	if (philo->name == 1)
+		end_simu(philo->table);
 	return (NULL);
 }
 
@@ -64,14 +67,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_lock(&philo->next->mutex);
 		philo->next->fork = 1;
 		printf("%d  %d  has taken a fork\n", get_time(philo->table), philo->name);
-		printf("%d  %d  is eating\n", get_time(philo->table), philo->name);
-		philo->last_meal = get_time(philo->table);
-		psleep(philo->table->time_eat, philo);
-		philo->fork = 0;
-		pthread_mutex_unlock(&philo->mutex);
-		pthread_mutex_unlock(&philo->next->mutex);
-		philo->next->fork = 0;
-		philo->is_hungry = 0;
+		eat_bis(philo, get_time(philo->table));
 		return (0);
 	}
 	philo->is_hungry = 1;

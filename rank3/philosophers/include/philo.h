@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 15:20:24 by arpages           #+#    #+#             */
-/*   Updated: 2024/03/02 16:33:06 by arpages          ###   ########.fr       */
+/*   Updated: 2024/03/09 13:32:16 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct table_s
 
 /*
 	phases are what the philosophers is doing :
-	0 sleeping, 1 eating, 2 thinking, 3 dead
+	0 sleeping, 1 eating, 2 thinking
 */
 typedef struct philo_s
 {
@@ -45,6 +45,7 @@ typedef struct philo_s
 	int		last_meal;
 	int		fork;
 	int		is_hungry;
+	int		is_dead;
 	pthread_mutex_t	mutex;
 	struct philo_s	*next;
 	struct philo_s	*previous;
@@ -66,8 +67,10 @@ void	eat_bis(t_philo *philo, int entry);
 
 int		psleep(int mtime, t_philo *philo);
 
+void	death_philo(t_philo *philo);
 
 t_table	*setup_args(char **argv, int argc);
 int		verif_args(char **str);
+int		is_still_alive(t_philo *philo, int time);
 
 #endif

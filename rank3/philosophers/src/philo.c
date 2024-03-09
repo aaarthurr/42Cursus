@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 14:58:29 by arpages           #+#    #+#             */
-/*   Updated: 2024/02/27 15:16:36 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:34:13 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_philo	*new_node(int name, t_table *table)
 	new->fork = 0;
 	new->last_meal = 0;
 	new->is_hungry = 0;
+	new->is_dead = 0;
 	pthread_mutex_init(&new->mutex, NULL);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:10:55 by arthur            #+#    #+#             */
-/*   Updated: 2024/03/14 10:34:00 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/15 08:22:25 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	print_message(char *str, t_philo *philo, int id)
 {
 	size_t	time;
 
-	pthread_mutex_lock(philo->write_lock);
+	pthread_mutex_lock(philo->print_line);
 	time = get_current_time() - philo->start_time;
 	if (!dead_loop(philo))
 		printf("%zu %d %s\n", time, id, str);
 	printf("\033[0m");
-	pthread_mutex_unlock(philo->write_lock);	
+	pthread_mutex_unlock(philo->print_line);
 }
 
 int	philoopher_dead(t_philo *philo, size_t time_to_die)
@@ -55,7 +55,6 @@ int	check_if_dead(t_philo *philo)
 	return (0);
 }
 
-
 int	check_if_all_ate(t_philo *philo)
 {
 	int	i;
@@ -82,7 +81,6 @@ int	check_if_all_ate(t_philo *philo)
 	}
 	return (0);
 }
-
 
 void	*monitor(void *pointer)
 {

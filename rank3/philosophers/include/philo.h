@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 15:20:24 by arpages           #+#    #+#             */
-/*   Updated: 2024/03/14 11:12:00 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/15 08:22:32 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct philo_s
 	int				meal_eaten;
 	int				size;
 	int				num_meals;
-	int				*is_dead;	
+	int				*is_dead;
 	size_t			last_meal;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
@@ -39,18 +39,18 @@ typedef struct philo_s
 	size_t			start_time;
 	pthread_mutex_t	*previous_fork;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*print_line;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
 }		t_philo;
 
 typedef struct table_s
 {
-	int					dead_flag;
+	int					is_dead;
 	t_philo				*philo;
 	pthread_mutex_t		dead_lock;
 	pthread_mutex_t		meal_lock;
-	pthread_mutex_t		write_lock;
+	pthread_mutex_t		print_line;
 }		t_table;
 
 void				destory_all(int type, t_table *table,
@@ -59,8 +59,8 @@ void				destory_all(int type, t_table *table,
 // Initialization
 void				init_all(t_table *program, t_philo *philos);
 void				init_forks(pthread_mutex_t *forks, int philo_num);
-void				init_philos(t_philo *philos, t_table *program,
-						pthread_mutex_t *forks, char **argv);
+void				init(t_philo *phi, t_table *prog,
+						pthread_mutex_t *frks, char **argv);
 
 // Threads
 int					create_thread(t_table *program, pthread_mutex_t *forks);

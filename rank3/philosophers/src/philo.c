@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:51:23 by arthur            #+#    #+#             */
-/*   Updated: 2024/03/14 10:46:54 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/14 22:30:09 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	destory_all(int type, t_table *table, pthread_mutex_t *forks)
 	if (type == 1)
 		printf("\033[31mERROR : Unwanted Thread error !\n\033[");
 	pthread_mutex_destroy(&table->dead_lock);
-	pthread_mutex_destroy(&table->write_lock);
+	pthread_mutex_destroy(&table->print_line);
 	pthread_mutex_destroy(&table->meal_lock);
 	while (i < table->philo[0].size)
 	{
@@ -71,7 +71,7 @@ int	main(int argc, char **argv)
 		return (printf("\033[0m\n"), 1);
 	init_all(&table, philos);
 	init_forks(forks, ft_atoi(argv[1]));
-	init_philos(philos, &table, forks, argv);
+	init(philos, &table, forks, argv);
 	create_thread(&table, forks);
 	destory_all(0, &table, forks);
 	return (0);

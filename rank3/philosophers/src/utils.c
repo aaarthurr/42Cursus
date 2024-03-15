@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:08:36 by arthur            #+#    #+#             */
-/*   Updated: 2024/03/14 10:41:28 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/15 08:23:28 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ int	ft_usleep(size_t time, t_philo *philo)
 {
 	size_t	start;
 
+	(void)philo;
 	start = get_current_time();
 	while ((get_current_time() - start) < time)
 	{
 		usleep(500);
-		if (*philo->is_dead == 1)
-			return (0);
 	}
 	return (0);
 }
@@ -67,6 +66,6 @@ size_t	get_current_time(void)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
+		printf("gettimeofday() error\n");
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

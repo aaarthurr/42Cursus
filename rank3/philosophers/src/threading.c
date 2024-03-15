@@ -6,7 +6,7 @@
 /*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:26:31 by arthur            #+#    #+#             */
-/*   Updated: 2024/03/14 11:06:16 by arthur           ###   ########.fr       */
+/*   Updated: 2024/03/15 08:23:10 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*philo_routine(void *pointer)
 	philo = (t_philo *)pointer;
 	if (philo->name % 2 == 0)
 		ft_usleep(1, philo);
-	while (!dead_loop(philo)) 
+	while (!dead_loop(philo))
 	{
 		eat(philo);
 		philo_sleep(philo);
@@ -39,21 +39,21 @@ void	*philo_routine(void *pointer)
 
 int	create_thread(t_table *program, pthread_mutex_t *forks)
 {
-	pthread_t	observer;
+	pthread_t	table;
 	int			i;
 
-	if (pthread_create(&observer, NULL, &monitor, program->philo) != 0)
+	if (pthread_create(&table, NULL, &monitor, program->philo) != 0)
 		destory_all(1, program, forks);
 	i = 0;
 	while (i < program->philo[0].size)
 	{
-		if (pthread_create(&program->philo[i].thread, NULL, &philo_routine,
-				&program->philo[i]) != 0)
+		if (pthread_create(&program->philo[i].thread, NULL,
+				&philo_routine, &program->philo[i]) != 0)
 			destory_all(1, program, forks);
 		i++;
 	}
 	i = 0;
-	if (pthread_join(observer, NULL) != 0)
+	if (pthread_join(table, NULL) != 0)
 		destory_all(1, program, forks);
 	while (i < program->philo[0].size)
 	{

@@ -13,7 +13,7 @@ PRINTF_FILES = ft_printf.c ft_printf2.c ft_putunbr.c \
 
 FILES = main.c get_next_line_utils.c get_next_line.c move.c \
 			mapping.c texturing.c utils.c map_verif.c map_verif_2.c\
-			ft_itoa.c
+			ft_itoa.c enemies.c
 
 SRCS = $(addprefix $(SRC_PRE), $(FILES))
 PRINTF_SRCS = $(addprefix $(PRINTF_PRE), $(PRINTF_FILES))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 17:33:21 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/18 17:24:07 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/02 11:49:18 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,16 @@ int	end_game(t_data *data)
 int	event(int keycode, t_data *data)
 {
 	if (keycode == KEYCODE_ESC)
-	{
 		end_game(data);
-	}
 	if (keycode == KEYCODE_UP)
-	{
 		move_up(data);
-	}
 	if (keycode == KEYCODE_DOWN)
-	{
 		move_down(data);
-	}
 	if (keycode == KEYCODE_LEFT)
-	{
 		move_left(data);
-	}
 	if (keycode == KEYCODE_RIGHT)
-	{
 		move_right(data);
-	}
+	enemies_manage(data);
 	draw_all(data, 0, 0);
 	return (0);
 }

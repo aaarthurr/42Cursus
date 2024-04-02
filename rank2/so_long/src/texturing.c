@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texturing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:54:54 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/18 16:45:00 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/02 11:53:48 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,13 @@ void	draw_all(t_data *data, int x, int y)
 					data->mlx_win, data->img.ground.img_ptr, x * 64, y * 64);
 			else if (data->map[y][x] == 'P')
 				draw_perso(data, x, y);
-			else if (data->map[y][x] == 'c')
+			else if (data->map[y][x] == 'C')
 				mlx_put_image_to_window(data->mlx_ptr,
 					data->mlx_win, data->img.item.img_ptr, x * 64, y * 64);
 			else if (data->map[y][x] == 'E')
+				mlx_put_image_to_window(data->mlx_ptr,
+					data->mlx_win, data->img.fin.img_ptr, x * 64, y * 64);
+			else if (data->map[y][x] == 'X')
 				mlx_put_image_to_window(data->mlx_ptr,
 					data->mlx_win, data->img.fin.img_ptr, x * 64, y * 64);
 			x++;

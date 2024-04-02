@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 16:17:19 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/18 14:17:51 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/02 11:20:50 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	move_up(t_data *data)
 			data->coo_y--;
 			data->count++;
 		}
-		else if (data->map[data->coo_y - 1][data->coo_x] == 'c')
+		else if (data->map[data->coo_y - 1][data->coo_x] == 'C')
 		{
 			data->map[data->coo_y - 1][data->coo_x] = 'P';
 			data->map[data->coo_y][data->coo_x] = '0';
@@ -56,7 +56,7 @@ void	move_down(t_data *data)
 			data->coo_y++;
 			data->count++;
 		}
-		else if (data->map[data->coo_y + 1][data->coo_x] == 'c')
+		else if (data->map[data->coo_y + 1][data->coo_x] == 'C')
 		{
 			data->map[data->coo_y + 1][data->coo_x] = 'P';
 			data->map[data->coo_y][data->coo_x] = '0';
@@ -81,7 +81,7 @@ void	move_left(t_data *data)
 			data->coo_x--;
 			data->count++;
 		}
-		else if (data->map[data->coo_y][data->coo_x - 1] == 'c')
+		else if (data->map[data->coo_y][data->coo_x - 1] == 'C')
 		{
 			data->map[data->coo_y][data->coo_x - 1] = 'P';
 			data->map[data->coo_y][data->coo_x] = '0';
@@ -106,7 +106,7 @@ void	move_right(t_data *data)
 			data->coo_x++;
 			data->count++;
 		}
-		else if (data->map[data->coo_y][data->coo_x + 1] == 'c')
+		else if (data->map[data->coo_y][data->coo_x + 1] == 'C')
 		{
 			data->map[data->coo_y][data->coo_x + 1] = 'P';
 			data->map[data->coo_y][data->coo_x] = '0';

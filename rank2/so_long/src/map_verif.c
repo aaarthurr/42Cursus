@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_verif.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:36:28 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/18 17:20:29 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/02 11:20:20 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	count_content(t_data *data, int i, int j)
 		{
 			if (data->map[i][j] == 'P')
 				data->is_start++;
-			else if (data->map[i][j] == 'c')
+			else if (data->map[i][j] == 'C')
 				data->is_item++;
 			else if (data->map[i][j] == 'E')
 				set_end(data, i, j);

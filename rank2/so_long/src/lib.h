@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 17:24:19 by arpages           #+#    #+#             */
-/*   Updated: 2023/11/18 17:14:55 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/02 11:54:31 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,9 @@ int		check_path(t_data *data, int x_end, int y_end, t_pos *pos);
 void	check_path2(char **map, t_pos *pos, int *top, t_pos cur);
 
 void	printer(t_data *data);
+
+void	game_win(t_data *data);
+
+void	enemies_manage(t_data *data);
 
 #endif

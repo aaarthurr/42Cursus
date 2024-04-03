@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:39:05 by arpages           #+#    #+#             */
-/*   Updated: 2023/10/06 20:09:36 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/03 12:15:41 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int		i;
-	t_list	*next;
+	size_t	i;
 
-	if (lst == NULL)
-		return (0);
-	i = 1;
-	next = lst->next;
-	while (next != NULL)
+	i = 0;
+	while (lst)
 	{
+		lst = lst->next;
 		i++;
-		next = next->next;
 	}
 	return (i);
 }

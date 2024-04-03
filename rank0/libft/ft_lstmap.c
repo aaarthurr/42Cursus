@@ -3,32 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 10:47:22 by arpages           #+#    #+#             */
-/*   Updated: 2023/10/07 11:30:34 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/03 12:15:01 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *))
 {
-	t_list	*start;
 	t_list	*first;
-	t_list	*to_add;
+	t_list	*new;
 
-	if (!lst || !f || !del)
+	if (!f || !del)
 		return (NULL);
-	first = ft_lstnew((*f)(lst->content));
-	start = first;
-	to_add = lst->next;
-	while (to_add->next != NULL)
+	first = NULL;
+	while (lst)
 	{
-		ft_lstadd_back(&start, ft_lstnew((*f)(to_add->content)));
-		to_add = to_add->next;
-		start = start->next;
+		if (!(new = ft_lstnew((*f)(lst->content))))
+		{
+			while (first)
+			{
+				new = first->next;
+				(*del)(first->content);
+				free(first);
+				first = new;
+			}
+			lst = NULL;
+			return (NULL);
+		}
+		ft_lstadd_back(&first, new);
+		lst = lst->next;
 	}
-	ft_lstadd_back(&start, ft_lstnew((*f)(to_add->content)));
 	return (first);
 }

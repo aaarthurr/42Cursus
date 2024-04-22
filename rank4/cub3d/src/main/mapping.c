@@ -16,8 +16,8 @@
 	in the variable char **global */
 void	copy_file(t_map_info *map_info)
 {
-	int		fd;
-	int		j;
+	int	fd;
+	int	j;
 	char	*temp;
 
 	j = 0;
@@ -46,8 +46,8 @@ void	copy_file(t_map_info *map_info)
 /* this fontion create a char ** with only the map part contained in the file*/
 void get_map(t_map_info *map_info)
 {
-	int i;
-	char **map;
+	int	i;
+	char	**map;
 
 	map = NULL;
 	i = map_info->height;
@@ -62,10 +62,10 @@ void get_map(t_map_info *map_info)
 }
 
 /* classic realloc funtion*/
-char **tab_realloc(char **tab, int m_size, char *content)
+char	**tab_realloc(char **tab, int m_size, char *content)
 {
-	int i;
-	char **new_tab;
+	int	i;
+	char	**new_tab;
 
 	i = 0;
 	new_tab = malloc(sizeof(char *) * (tab_size(tab) + m_size + 1));
@@ -88,7 +88,7 @@ char **tab_realloc(char **tab, int m_size, char *content)
 /* checke if the line contain part of a map*/
 int is_map_part(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line == NULL)
@@ -105,7 +105,7 @@ int is_map_part(char *line)
 /*return size of a tab*/
 int tab_size(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if(tab == NULL)

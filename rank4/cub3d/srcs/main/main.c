@@ -3,42 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leoherna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:04:05 by arpages           #+#    #+#             */
-/*   Updated: 2024/04/22 17:27:53 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/24 16:09:00 by leoherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cubed.h"
+#include "cubed.h"
 
 int main(int argc, char **argv)
 {
-    t_map_info *map_info;
     t_data data;
-  
-    map_info = malloc(sizeof(t_map_info));
-    if (argc != 2)
-        printf("only argument is the map path\n");
+
+    if (argc < 2)
+    {
+        printf("Mettez map : %s\n", argv[0]);
+    }
     else
     {
-        data.map_info.map_path = argv[1];
-        copy_file(&data.map_info);
-        //print_tab(data.map_info.global);
-        get_map(&data.map_info);
-        print_tab(data.map_info.map);
+        get_all(argv, &data);
+        check_map(&data);
+		//game_manager(&data);
     }
-        
+	return (0);
 }
 
-void	print_tab(char **tab)
-{
-	int		i;
 
-	i = 0;
-	while (tab[i] != NULL)
-	{
-        printf("%s\n", tab[i]);
-		i++;
-	}
-}
+

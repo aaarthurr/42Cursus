@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leoherna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 18:35:57 by arpages           #+#    #+#             */
-/*   Updated: 2024/04/22 17:01:16 by arpages          ###   ########.fr       */
+/*   Updated: 2024/04/23 12:31:50 by leoherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/cubed.h"
+# include "cubed.h"
 
 void	clean_lst(t_list **lst)
 {

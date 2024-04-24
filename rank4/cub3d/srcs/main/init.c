@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mapping.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leoherna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 14:12:26 by arpages           #+#    #+#             */
-/*   Updated: 2024/04/22 17:29:13 by arpages          ###   ########.fr       */
+/*   Created: 2024/04/23 13:20:42 by arpages           #+#    #+#             */
+/*   Updated: 2024/04/24 16:14:52 by leoherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cubed.h"
+#include "cubed.h"
+
+void	get_all(char **argv, t_data *data)
+{
+	if (check_file(argv[1]))
+		return;
+	data->map_info.map_path = argv[1];
+    copy_file(&data->map_info);
+    get_map(&data->map_info);
+}
+
 
 /* this funtiom copy a file gave in struct map_info->map_path
 	in the variable char **global */
 void	copy_file(t_map_info *map_info)
 {
-	int	fd;
-	int	j;
+	int		fd;
+	int		j;
 	char	*temp;
 
 	j = 0;
@@ -46,8 +56,8 @@ void	copy_file(t_map_info *map_info)
 /* this fontion create a char ** with only the map part contained in the file*/
 void get_map(t_map_info *map_info)
 {
-	int	i;
-	char	**map;
+	int i;
+	char **map;
 
 	map = NULL;
 	i = map_info->height;
@@ -61,34 +71,11 @@ void get_map(t_map_info *map_info)
 	map_info->map = map;
 }
 
-/* classic realloc funtion*/
-char	**tab_realloc(char **tab, int m_size, char *content)
-{
-	int	i;
-	char	**new_tab;
-
-	i = 0;
-	new_tab = malloc(sizeof(char *) * (tab_size(tab) + m_size + 1));
-	while (tab != NULL && tab[i] != NULL)
-	{
-		new_tab[i] = tab[i];
-		i++;
-	}
-	while(i < (tab_size(tab) + m_size))
-	{
-		new_tab[i] = content;
-		i++;
-	}
-	new_tab[i] = NULL;
-	if (tab != NULL)
-		free(tab);
-	return(new_tab);
-}
 
 /* checke if the line contain part of a map*/
 int is_map_part(char *line)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (line == NULL)
@@ -102,15 +89,8 @@ int is_map_part(char *line)
 	return (0);
 }
 
-/*return size of a tab*/
-int tab_size(char **tab)
+void set_pos(t_data *data, int x, int y)
 {
-	int	i;
-
-	i = 0;
-	if(tab == NULL)
-		return (0);
-	while (tab[i] != NULL)
-		i++;
-	return (i);
+	data->player.posX = (double)x + 0.5;
+	data->player.posY = (double)y + 0.5;
 }

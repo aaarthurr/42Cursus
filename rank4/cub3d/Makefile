@@ -4,17 +4,29 @@ CC = cc
 
 CFLAGS = -g -Wall -Wextra -Werror -I includes
 
-INCLUDE = -I include/
+MLXFLAGS = -Lminilibx -lmlx -lXext -lX11
 
-HEADER = cubed.h
+LIBPATH = minilibx
 
-MAIN = main map_checker mapping
+HEADER = cub3d.h
+
+MAIN = main init checker game_manager error
+
+RAYCASTING = raycasting
+
+UTILS = tools tools_bis ft_tools free_manager
+
+MAP = map_checker mapping
 
 GNL = get_next_line get_next_line_utils
 
-SRC = 	$(addsuffix .c, $(addprefix src/main/, $(MAIN))) \
-		$(addsuffix .c, $(addprefix src/get_next_line/, $(GNL))) \
-
+SRC = $(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
+	$(addsuffix .c, $(addprefix srcs/get_next_line/, $(GNL))) \
+	$(addsuffix .c, $(addprefix srcs/utils/, $(UTILS))) \
+	$(addsuffix .c, $(addprefix srcs/map/, $(MAP))) \
+	#$(addsuffix .c, $(addprefix srcs/raycasting/, $(RAYCASTING))) \
+	#$(addsuffix .c, $(addprefix srcs/pipex/, $(PIPEX))) \
+	#$(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
 	  
 
 OBJ = $(SRC:c=o)
@@ -22,12 +34,14 @@ OBJ = $(SRC:c=o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "\033[0;32mCub3d compiled"
-	@$(CC) $(CFLAGS) $(OBJ) -o $@
-	@echo "\n\033[0m./minishell to execute the program !"
+	@echo "\033[0;32mMinilibx Compiled !"
+	make -sC $(LIBPATH)
+	@echo "\033[0;32mCub3d Compiled !"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I. $(OBJS) $(MLXFLAGS) 
+	@echo "\n\033[0m./cub3d to execute the program !"
 
 %.o: %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r\n" $@
+	@printf "\033[0;33mGenerating Cub3d objects... %-33.33s\r\n" $@
 	@${CC} ${CFLAGS} -c $< -o $@
 
 clean:

@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 
 CC = cc
 
@@ -10,22 +10,24 @@ LIBPATH = minilibx
 
 HEADER = cub3d.h
 
-MAIN = main init checker game_manager error
+MAIN = main init error init_bis
 
-RAYCASTING = raycasting
+RAYCASTING = raycasting raycasting_bis opti textures textures_bis roof_cast effect effect_bis get_floor
 
-UTILS = tools tools_bis ft_tools free_manager
+UTILS = tools tools_bis ft_tools free_manager ft_itoa
 
-MAP = map_checker mapping
+MAP = map_checker mapping checker path_finding path_finding_bis
 
 GNL = get_next_line get_next_line_utils
+
+GAME = game_manager game_manager_bis move mouse_movement minimap item item_bis minimap_bis item_ter
 
 SRC = $(addsuffix .c, $(addprefix srcs/main/, $(MAIN))) \
 	$(addsuffix .c, $(addprefix srcs/get_next_line/, $(GNL))) \
 	$(addsuffix .c, $(addprefix srcs/utils/, $(UTILS))) \
 	$(addsuffix .c, $(addprefix srcs/map/, $(MAP))) \
-	#$(addsuffix .c, $(addprefix srcs/raycasting/, $(RAYCASTING))) \
-	#$(addsuffix .c, $(addprefix srcs/pipex/, $(PIPEX))) \
+	$(addsuffix .c, $(addprefix srcs/raycasting/, $(RAYCASTING))) \
+	$(addsuffix .c, $(addprefix srcs/game_management/, $(GAME))) \
 	#$(addsuffix .c, $(addprefix srcs/parsing/, $(PARSING))) \
 	  
 
@@ -37,8 +39,8 @@ $(NAME): $(OBJ)
 	@echo "\033[0;32mMinilibx Compiled !"
 	make -sC $(LIBPATH)
 	@echo "\033[0;32mCub3d Compiled !"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I. $(OBJS) $(MLXFLAGS) 
-	@echo "\n\033[0m./cub3d to execute the program !"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I. $(OBJS) $(MLXFLAGS) -lm
+	@echo "\n\033[0m./cub3D to execute the program !"
 
 %.o: %.c
 	@printf "\033[0;33mGenerating Cub3d objects... %-33.33s\r\n" $@

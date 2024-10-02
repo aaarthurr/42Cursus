@@ -12,86 +12,121 @@
 
 #include "cubed.h"
 
-#define mapWidth 6
-#define mapHeight 6
-
-void    raycasting(t_data *data);
+void	send_rays(t_data *data)
 {
-    t_ray	ray;
 	int		x;
-	double temps = 0 ; //heure de la trame actuelle
-   	double oldTime = 0; //heure de l'image précédente
+	double	camx;
+	double	raydirx;
+	double	raydiry;
 
 	x = 0;
-	ray = data->ray;
-
-	// data->player.posX = 2;
-	// data->player.posY = 2;   // Position de départ x et y
-	
-   data->player.dirX = -1;
-   data->player.dirY = 0; // vecteur de direction initial
-   
-   data->player.planX = 0;
-   data->player.planY = 0,66 ; //la version Raycaster 2D du plan de la caméra
- 
+	if (data->texture.ceiling_color_or_texture == 1
+		&& data->player.drug_level < 5)
+		cast_floor(data);
 	while (x < data->win_width)
 	{
-		double cameraX = 2 * x / double(data->win_widht) - 1; //coordonnée x dans l'espace de la caméra
-    	double rayDirX = dirX + planeX * cameraX;
-    	double rayDirY = dirY + planY * caméraX ;
+		camx = ((2 * x) / (double)(data->win_width)) - 1;
+		raydirx = data->player.dirx + (data->player.planx * camx);
+		raydiry = data->player.diry + (data->player.plany * camx);
+		one_ray(data, raydirx, raydiry, x);
+		x++;
+	}
+	give_effect(data);
+	cast_sprite(data);
+	print_map(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+}
+
+void	one_ray(t_data *data, double rdx, double rdy, int x)
+{
+	t_raystate	raystate;
+
+	raystate.x = x;
+	raystate.hit = 0;
+	raystate.mapx = (int)(data->player.posx);
+	raystate.mapy = (int)(data->player.posy);
+	raystate.raydirx = rdx;
+	raystate.raydiry = rdy;
+	if (rdx == 0)
+		raystate.deltadistx = 1e30;
+	else
+		raystate.deltadistx = fabs(1 / rdx);
+	if (rdy == 0)
+		raystate.deltadisty = 1e30;
+	else
+		raystate.deltadisty = fabs(1 / rdy);
+	calculate_init_dist(data, &raystate, rdx, rdy);
+	ray_loop(data, &raystate);
+}
+
+void	calculate_init_dist(t_data *data,
+		t_raystate *raystate, double rdx, double rdy)
+{
+	if (rdx < 0)
+	{
+		raystate->stepx = -1;
+		raystate->sidedistx = (data->player.posx - raystate->mapx)
+			* raystate->deltadistx;
+	}
+	else
+	{
+		raystate->stepx = 1;
+		raystate->sidedistx = (raystate->mapx + 1.0 - data->player.posx)
+			* raystate->deltadistx;
+	}
+	if (rdy < 0)
+	{
+		raystate->stepy = -1;
+		raystate->sidedisty = (data->player.posy - raystate->mapy)
+			* raystate->deltadisty;
+	}
+	else
+	{
+		raystate->stepy = 1;
+		raystate->sidedisty = (raystate->mapy + 1.0 - data->player.posy)
+			* raystate->deltadisty;
 	}
 }
 
-/*
+void	ray_loop(t_data *data, t_raystate *raystate)
+{
+	while (raystate->hit == 0)
+	{
+		if (raystate->sidedistx < raystate->sidedisty)
+		{
+			raystate->sidedistx += raystate->deltadistx;
+			raystate->mapx += raystate->stepx;
+			raystate->side = 0;
+		}
+		else
+		{
+			raystate->sidedisty += raystate->deltadisty;
+			raystate->mapy += raystate->stepy;
+			raystate->side = 1;
+		}
+		if (data->map_info.map[raystate->mapy][raystate->mapx] == '1')
+			raystate->hit = 1;
+	}
+	if (raystate->side == 0)
+		raystate->perpwalldist = (raystate->sidedistx - raystate->deltadistx);
+	else
+		raystate->perpwalldist = (raystate->sidedisty - raystate->deltadisty);
+	get_line_data(data, raystate);
+}
 
-deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
-deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
+void	which_texture(t_data *data, t_raystate *raystate,
+	int l_start, int l_end)
+{
+	t_var	var;
 
-
-deltaDistX = abs(|rayDir| / rayDirX)
-deltaDistY = abs(|rayDir| / rayDirY)
-
-deltaDistX = abs(1 / rayDirX)
-deltaDistY = abs(1 / rayDirY)
-
-
-      //dans quelle case de la carte nous nous trouvons
-       int mapX = int(posX);
-      int mapY = int(posY);
-
-      //longueur du rayon depuis la position actuelle jusqu'au prochain côté x ou y
-       double sideDistX ;
-      double faceDistY ;
-
-             //longueur du rayon d'un côté x ou y au double deltaDistX = (rayDirX == 0) suivant côté x ou y
- ? 1e30 : std::abs(1 / rayDirX);
-      double deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1 / rayDirY);
-      double perpWallDist ;
-
-      //dans quelle direction avancer dans la direction x ou y (soit +1 ou -1)
-       int stepX;
-      int étapeY ;
-
-      int hit = 0 ; //Y a-t-il eu un coup de mur ?
-       côté intérieur ; //un mur NS ou EW a-t-il été touché ?
-	     //calcule l'étape et la sideDist initiale
-       si (rayDirX < 0)
-      {
-        étapeX = -1 ;
-        sideDistX = (posX - mapX) * deltaDistX ;
-      }
-      autre
-      {
-        étapeX = 1 ;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX ;
-      }
-      si (rayDirY < 0)
-      {
-        étapeY = -1 ;
-        sideDistY = (posY - mapY) * deltaDistY;
-      }
-      autre
-      {
-        étapeY = 1 ;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-      }
+	var.lend = l_end;
+	var.lstart = l_start;
+	if (raystate->side == 0 && raystate->mapx > data->player.posx)
+		drawverticalline(data, raystate, &(data->texture.ewall), &var);
+	if (raystate->side == 0 && raystate->mapx < data->player.posx)
+		drawverticalline(data, raystate, &(data->texture.wwall), &var);
+	if (raystate->side == 1 && raystate->mapy > data->player.posy)
+		drawverticalline(data, raystate, &(data->texture.swall), &var);
+	if (raystate->side == 1 && raystate->mapy < data->player.posy)
+		drawverticalline(data, raystate, &(data->texture.nwall), &var);
+}

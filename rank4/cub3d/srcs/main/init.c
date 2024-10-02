@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leoherna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:20:42 by arpages           #+#    #+#             */
-/*   Updated: 2024/04/24 16:14:52 by leoherna         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:04:16 by arpages          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,82 +15,81 @@
 void	get_all(char **argv, t_data *data)
 {
 	if (check_file(argv[1]))
-		return;
+		return ;
 	data->map_info.map_path = argv[1];
-    copy_file(&data->map_info);
-    get_map(&data->map_info);
+	copy_file(&data->map_info);
+	get_map(&data->map_info);
 }
 
-
-/* this funtiom copy a file gave in struct map_info->map_path
-	in the variable char **global */
 void	copy_file(t_map_info *map_info)
 {
-	int		fd;
-	int		j;
-	char	*temp;
+	t_var	var;
 
-	j = 0;
+	var.j = 0;
 	map_info->height = 0;
-	fd = open(map_info->map_path, O_RDWR);
-	temp = get_next_line(fd);
-	while (temp != NULL)
+	var.fd = open(map_info->map_path, O_RDONLY);
+	var.temp = get_next_line(var.fd);
+	while (var.temp != NULL)
 	{
-		free(temp);
-		map_info->height++;
-		temp = get_next_line(fd);
+		free(var.temp);
+		map_info->height = map_info->height + 1;
+		var.temp = get_next_line(var.fd);
 	}
-	free(temp);
-	close(fd);
+	free(var.temp);
+	close(var.fd);
 	map_info->global = malloc(sizeof(char *) * (map_info->height + 1));
-	fd = open(map_info->map_path, O_RDWR);
-	while (j < map_info->height)
+	var.fd = open(map_info->map_path, O_RDONLY);
+	while (var.j < map_info->height)
 	{
-		map_info->global[j] = get_next_line(fd);
-		j++;
+		map_info->global[var.j] = get_next_line(var.fd);
+		var.j++;
 	}
-	map_info->global[j] = NULL;
-	close(fd);
+	map_info->global[var.j] = NULL;
+	map_info->global_len = var.j;
+	close(var.fd);
 }
 
-/* this fontion create a char ** with only the map part contained in the file*/
-void get_map(t_map_info *map_info)
+void	get_map(t_map_info *map_info)
 {
-	int i;
-	char **map;
+	t_var	var;
 
-	map = NULL;
-	i = map_info->height;
-	while (is_map_part(map_info->global[i]) == 0)
-		i--;
-	while (is_map_part(map_info->global[i]) == 1)
+	var.tab = NULL;
+	var.j = -1;
+	var.i = 0;
+	var.size = map_info->height;
+	while (is_map_part(map_info->global[var.i]) == 0 && var.i < var.size)
+		var.i++;
+	while (is_map_part(map_info->global[var.i]) == 1 && var.i < var.size)
 	{
-		map = tab_realloc(map, 1, map_info->global[i]);
-		i--;
+		if (var.j == -1)
+			var.j = var.i;
+		var.i++;
 	}
-	map_info->map = map;
+	var.tab = malloc(sizeof(char *) * ((var.i - var.j) + 1));
+	var.i = 0;
+	while (is_map_part(map_info->global[var.j]) == 1 && var.j < var.size)
+	{
+		var.tab[var.i] = ft_strdup(map_info->global[var.j]);
+		var.j++;
+		var.i++;
+	}
+	var.tab[var.i] = NULL;
+	get_next_line(-1);
+	map_info->map = var.tab;
 }
 
-
-/* checke if the line contain part of a map*/
-int is_map_part(char *line)
+int	is_map_part(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line == NULL)
 		return (0);
-	while(line[i] != '\0')
+	while (line[i] != '\0' && ft_strchr(line[i], " 10NSEW") == 1)
 	{
 		if (line[i] == '1')
 			return (1);
 		i++;
 	}
 	return (0);
-}
-
-void set_pos(t_data *data, int x, int y)
-{
-	data->player.posX = (double)x + 0.5;
-	data->player.posY = (double)y + 0.5;
 }

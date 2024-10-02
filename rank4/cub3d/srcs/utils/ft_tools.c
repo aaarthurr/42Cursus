@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tools.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/30 13:32:31 by arthur            #+#    #+#             */
+/*   Updated: 2024/05/30 13:32:31 by arthur           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "cubed.h"
 
-int ft_strchr(char c, char *str)
+int	ft_strchr(char c, char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -14,17 +26,7 @@ int ft_strchr(char c, char *str)
 	return (0);
 }
 
-int ft_strlen(char *str)
-{
-	int i;
-
-	i = 0;
-	while(str[i] != '\0')
-		i++;
-	return(i);
-}
-
-int ft_strncmp(const char *str1, const char *str2, unsigned int n)
+int	ft_strncmp(const char *str1, const char *str2, unsigned int n)
 {
 	unsigned char	*ptr1;
 	unsigned char	*ptr2;

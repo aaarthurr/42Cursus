@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_manager_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arpages <arpages@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:55 by arpages           #+#    #+#             */
-/*   Updated: 2024/09/30 15:20:23 by arpages          ###   ########.fr       */
+/*   Updated: 2024/11/26 18:22:38 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	multi_key_bis(t_data *data)
 		usleep((10 - frame_lenght) * 1000);
 	frame_time = get_current_time();
 	fps = 1000 / (frame_time - data->last_frame);
+	if (fps <= 10)
+		printf("LOW FPS [%d]!\n", fps);
 	data->last_frame = frame_time;
 	if (data->player.drug_time != -1
 		&& (size_t)(data->player.drug_time) < get_current_time())

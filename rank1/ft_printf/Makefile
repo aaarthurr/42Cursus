@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arpages <arpages@student.42.fr>            +#+  +:+       +#+         #
+#    By: arthur <arthur@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/12 18:35:47 by arpages           #+#    #+#              #
-#    Updated: 2023/10/13 17:36:52 by arpages          ###   ########.fr        #
+#    Updated: 2024/12/12 15:12:35 by arthur           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,35 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+$(NAME): banner $(OBJS)
+	@echo "\033[0;32m- - - ft_printf Compiled - - -\n"
+	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "\033[0;35mGenerating ft_printf objects... %-33.33s\r\n" $@
 
 clean:
-	rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS)
+	@echo "\033[0;31mft_printf objects cleaned!\n"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "\033[0;31mft_printf removed!\n"
 
 re: fclean all
+
+banner:
+	@echo "\033[36m"
+	@echo "  ,----,------------------------------,------.  "
+	@echo "  | ## |                              |    - |  "
+	@echo "  | ## |      - ! ft_printf ! -       |    - |  "
+	@echo "  |    |------------------------------|    - |  "
+	@echo "  |    ||............................||      |  "
+	@echo "  |    ||,-                        -.||      |  "
+	@echo "  |    ||___                      ___||    ##|  "
+	@echo "  |    ||---'--------------------'---||      |  "
+	@echo "  '--mb'|_|______________________==__|'------'  "
+	@echo "\033[0m"
+
+.PHONY: all clean fclean re banner

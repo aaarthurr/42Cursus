@@ -4,11 +4,11 @@ Ce repository regroupe les projets principaux réalisés dans le cadre de mon cu
 Les projets inclus ici sont ceux qui contiennent du code réel et reflètent les étapes majeures du parcours.
 
 ### 📌 Projets non inclus :
-- "CPP 00 à 09"  
+- ["CPP 00 à 09"] (https://github.com/aaarthurr/cpp)
 - "Born to be Root"  
 - "Net Practice"  
-- Examens  
-- **ft_transcendence** (disponible dans un repository séparé)
+- Examens 
+- [ft_transcendence] (https://github.com/aaarthurr/ft_transcendence)
 
 **⚠️ Note importante :**  
 Tous les projets listés ont été validés sur l'intra de 42. Cependant, ils ne sont pas parfaits et peuvent contenir des erreurs.  
@@ -19,7 +19,7 @@ Tous les projets listés ont été validés sur l'intra de 42. Cependant, ils ne
 ## 📂 Liste des Projets
 
 ### 🟢 Rank 0
-- **libft**
+- [**libft**](./rank0/libft)
 
 ### 🟡 Rank 1
 - **ft_printf**  
@@ -52,7 +52,8 @@ Cependant, aucun projet n'a été intégralement résolu par ChatGPT.
 Les algorithmes, la logique, et les choix de conception restent personnels et le fruit d'une réflexion approfondie.  
 
 ---
- ## 📜 Licence Ce projet est sous licence [MIT](LICENSE). Vous êtes libre de l'utiliser, de le modifier et de le distribuer à condition de créditer l'auteur original.
+ ## 📜 Licence
+Ce projet est sous licence [MIT](LICENSE). Vous êtes libre de l'utiliser, de le modifier et de le distribuer à condition de créditer l'auteur original.
 --- 
 
 Merci de votre visite ! 🚀  

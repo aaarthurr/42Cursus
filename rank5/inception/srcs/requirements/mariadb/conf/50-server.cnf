@@ -1,0 +1,16 @@
+[mysqld]
+# Configuration de base
+datadir = /var/lib/mysql
+socket = /var/run/mysqld/mysqld.sock
+user = mysql
+
+# Limite de la taille des connexions
+max_connections = 200
+
+# Configurer les logs
+log_error = /var/log/mysql/error.log
+log_bin = /var/log/mysql/mysql-bin.log
+
+# Options de sécurité
+skip-name-resolve
+bind-address = 0.0.0.0

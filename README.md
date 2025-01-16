@@ -39,7 +39,7 @@ Tous les projets listés ont été validés sur l'intra de 42. Cependant, ils ne
 
 ### - Rank 5
 - [**ft_irc**](./rank5/ft_irc)
-- [**inception**](./rank5/inception/ft_irc)
+- [**inception**](./rank5/inception)
 
 
 ---

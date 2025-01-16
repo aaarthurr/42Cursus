@@ -43,10 +43,10 @@ class Channel
 		int						get_operator() const;
 		std::string				get_pass() const;
 		std::string				get_name() const;
-		std::string				get_topic() const; //if no topic, return NO TOPIC or smth
+		std::string				get_topic() const;
 		bool					get_topic_changement();
 		
-		std::string				get_client_str(std::string nickname);  //:server-name 353 nickname = #channel-name :@user1 +user2 user3
+		std::string				get_client_str(std::string nickname);
 		std::map<int , User *>	get_client_list() const;
 		void					send_to_all(int client_fd, std::string message);
 		~Channel();
@@ -57,6 +57,6 @@ class Channel
 		
 };
 
-void							send_msg(int client_fd, std::string message);//DONE
+void							send_msg(int client_fd, std::string message);
 
 #include "User.hpp"

@@ -39,7 +39,7 @@ class User
 		
 		void								set_auth(bool auth);
 		void								set_nickname(std::string _nickname);
-		void								set_username(std::vector<char *> _username);
+		void								set_username(std::vector<std::string> _username);
 
 		void								set_invitedChannel( Channel *channel);
 
@@ -72,7 +72,7 @@ class User
 		void								remove_op_channel(Channel *channel);
 
 };
-void								send_msg(int client_fd, std::string message);//DONE
+void								send_msg(int client_fd, std::string message);
 
 #include "Channel.hpp"
 

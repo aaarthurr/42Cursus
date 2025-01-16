@@ -1,8 +1,8 @@
 #include "Server.hpp"
 
-std::vector<char *> Server::parse_request(char *buffer, const char *delim, int words)
+std::vector<std::string> Server::parse_request(char *buffer, const char *delim, int words)
 {
-    std::vector<char *> tab;
+    std::vector<std::string> tab;
     char *token = strtok(buffer, delim);
 
     while (token != NULL && words != 1)
@@ -21,13 +21,12 @@ std::vector<char *> Server::parse_request(char *buffer, const char *delim, int w
             remaining += delim;
             remaining += token;
         }
-        tab.push_back(strdup(remaining.c_str()));
+        tab.push_back(remaining);
     }
     return tab;
 }
 
-//fonction to return the command index for the switch case
-void Server::hashCommand(char* buffer, std::map<int, User *>::iterator it, int x) // gerer who et mode +b
+void Server::hashCommand(char* buffer, std::map<int, User *>::iterator it, int x)
 {
 
 	if (strncmp(buffer, "KICK", 4) == 0)
@@ -48,16 +47,14 @@ void Server::hashCommand(char* buffer, std::map<int, User *>::iterator it, int x
 		auth_client(it->first, buffer);
 	else if (strncmp(buffer, "PRIVMSG", 7) == 0)
 		privmsg(it->first, buffer);
-	else if (strncmp(buffer, "HELP", 4) == 0)
-		help(it->first, buffer);
 	else if (strncmp(buffer, "CAP LS 302", 10) == 0)
 		send_msg(it->first, "CAP * LS :");
 	else if (strncmp(buffer, "QUIT", 4) == 0)
 		remove_client(it, x);
 	else if (strncmp(buffer, "TOPIC", 5) == 0)
 		change_topic(it->first, buffer);
-	else if (strncmp(buffer, "end server 1234987", 18) == 0)
-		exit(0);
+	else if (strncmp(buffer, "END", 3) == 0)
+        throw std::invalid_argument("IRC server ended by user");
 	else if (strncmp("CAP END", buffer, 7))
 	{
 		std::cout << "IRC Invalid Command: " << buffer << std::endl;

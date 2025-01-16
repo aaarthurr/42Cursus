@@ -6,7 +6,7 @@
 #    By: arthur <arthur@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/12 18:35:47 by arpages           #+#    #+#              #
-#    Updated: 2024/12/12 15:12:35 by arthur           ###   ########.fr        #
+#    Updated: 2025/01/16 16:32:20 by arthur           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ ARFLAGS = rcs
 
 SRCS = ft_printf.c ft_printf2.c ft_putunbr.c \
 		ft_strchr.c ft_strlen.c ft_write.c \
-		ft_putnbr_base.c ft_putpoint.c test.c
+		ft_putnbr_base.c ft_putpoint.c
 
 OBJS = $(SRCS:.c=.o)
 

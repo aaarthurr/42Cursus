@@ -13,7 +13,7 @@ void	Server::start_server(void)
 
     pollfd server_pollfd;
     server_pollfd.fd = _socket;
-    server_pollfd.events = POLLIN;  // Monitor the server socket for incoming connections
+    server_pollfd.events = POLLIN;
     server_pollfd.revents = 0;
     fds.push_back(server_pollfd);
 
@@ -27,7 +27,8 @@ void	Server::start_server(void)
         throw std::runtime_error("Binding failed");
     }
 
-    if (listen(_socket, 5) == -1) { // need to be revised (number 5)
+    if (listen(_socket, 5) == -1) 
+    {
         close(_socket);
         throw std::runtime_error("Listening failed");
     }
@@ -42,7 +43,7 @@ void	Server::remove_client(std::map<int, User *>::iterator it, int x)
         if (it->second->is_joined(chan->first))
             chan->second->remove_from_list(it->second);
     }
-    std::cout << "Client " << it->second->get_nickname() << " requested to close the connection." << std::endl; // move that to the user destructor
+    std::cout << "Client " << it->second->get_nickname() << " requested to close the connection." << std::endl;
     unavailable_nick.erase(it->second->get_nickname());
     std::vector <struct pollfd>::iterator it2 = fds.begin();
     std::advance(it2, x);
@@ -50,7 +51,7 @@ void	Server::remove_client(std::map<int, User *>::iterator it, int x)
     client_list.erase(it);
 }
 
-void	send_msg(int client_fd, std::string message)//maybe have it so that we can put infinite parameters
+void	send_msg(int client_fd, std::string message)
 {
     int temp = 0;
 
@@ -65,14 +66,13 @@ void	send_msg(int client_fd, std::string message)//maybe have it so that we can 
         else
             bytes_sent += temp;
     }
-   // std::cout << "message " << message << " sent" << std::endl;
 }
 
 int is_auth_character(const std::string& str)
 {
 
     const char spe_character[] = {'`', '|', '^', '_', '-', '{', '}', '[', ']', '\\'};
-    std::set<char> spe_character_set(spe_character, spe_character + sizeof(spe_character) / sizeof(char)); //  spe_character + sizeof(spe_character) / sizeof(char) is to initialize the pointer past the last array elements
+    std::set<char> spe_character_set(spe_character, spe_character + sizeof(spe_character) / sizeof(char));
 
     for (size_t x = 0; x < str.length(); x++)
     {
@@ -126,15 +126,24 @@ std::set<std::string>	Server::get_unavilable_nick() const
 
 Server::~Server()
 {
-    for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); it++)
-    {
+
+    for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); ++it)
         delete it->second;
-    }
+    for (std::map<std::string, Channel *>::iterator it = channel_list.begin(); it != channel_list.end(); ++it)
+        delete it->second;
+
+    if (_socket != -1)
+        close(_socket);
+
+    client_list.clear();
+    channel_list.clear();
+    fds.clear();
+    unavailable_nick.clear();
 }
 
 /*-------------Nucleocherry's functions-------------*/
 
-int					Server::get_client_fd_by_nickname(std::string _nickname)//-TODO faire un fonction commune a toute les fichiers
+int					Server::get_client_fd_by_nickname(std::string _nickname)
 {
 	for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); it++)
 	{
@@ -148,7 +157,8 @@ int					Server::get_client_fd_by_nickname(std::string _nickname)//-TODO faire un
 
 void                Server::kick_user(std::string demand, int client_fd)
 {
-    std::vector<char *> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 4); // ici on peux ajouter pour le commentaire a voir comment implemaneter -TODO
+    std::vector<std::string> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 4);
+    
     buffer.erase(buffer.begin());
 
     if (buffer.size() < 2)
@@ -161,7 +171,7 @@ void                Server::kick_user(std::string demand, int client_fd)
     int kickedClient = get_client_fd_by_nickname(buffer[1]);
     if (kickedClient == -1/*cherche si il existe*/)
     {
-        send_msg(client_list[client_fd]->get_client_fd(), ":server 441 ERR_USERNOTINCHANNEL");
+        send_msg(client_list[client_fd]->get_client_fd(), "IRC 441 ERR_USERNOTINCHANNEL");
         return ;
     }
     std::string channelName = buffer[0];
@@ -169,24 +179,32 @@ void                Server::kick_user(std::string demand, int client_fd)
     {
         if (client_list[client_fd]->get_client_fd() == kickedClient)
         {
-            send_msg(client_list[client_fd]->get_client_fd(), "IRC Op cant kick himself it would delete the whole server");
+            send_msg(client_list[client_fd]->get_client_fd(), "IRC Op cant kick himself");
+            ;
             return ;
         }
         std::string msg = ":" + client_list[client_fd]->get_nickname() + "!" + client_list[client_fd]->get_username() + "@host KICK " + channelName + " " + client_list[kickedClient]->get_nickname() + " :";
+        if (buffer.size() == 3)
+        {
+            std::string com = buffer[2];
+            com = remove_endl(com, '\n');
+            com = remove_endl(com,'*');
+            com = remove_endl(com, ':');
+            msg += com;
+        }
         std::cout << "msg: " << msg << std::endl;
-        channel_list[channelName]->send_to_all(client_fd, msg);
+        channel_list[channelName]->send_to_all(-1, msg);
         channel_list[channelName]->remove_from_list(client_list[kickedClient]);
-        send_msg(client_fd, "IRC Kicked worked successfully");//-TOFIX ajouter si il existe le message de kick
+        send_msg(client_fd, "IRC Kicked worked successfully");
     }
     else
-        send_msg(client_fd, ":server 482 ERR_USERNOTINCHANNEL"); //std::cout << "" << std::endl;  /\/\/\/\/\ message a envoyer ici -TOEND
+        send_msg(client_fd, "IRC 482 ERR_USERNOTOPERATOR");
+    ;
 }
 
 void                Server::invite_user(int client_fd, std::string demand)
 {
-    //INVITE <nickname> <channel>
-
-    std::vector<char *> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 3); // ici on peux ajouter pour le commentaire a voir comment implemaneter -TODO
+    std::vector<std::string> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 3);
     buffer.erase(buffer.begin());
 
     if (buffer.size() < 2)
@@ -195,16 +213,16 @@ void                Server::invite_user(int client_fd, std::string demand)
         return ;
     }
 
-    int invitedClient = get_client_fd_by_nickname(buffer[0]); // IS ALSO JUST A CAST
-    std::string channelInvited_name(buffer[1]); //IS JUST A CAST
+    int invitedClient = get_client_fd_by_nickname(buffer[0]);
+    std::string channelInvited_name(buffer[1]);
 
-    if (invitedClient == -1 /*cherche si il existe*/)
+    if (invitedClient == -1)
     {
         send_msg(client_fd, "IRC ERR_USER_DOESNOTEXIST");
         return ;
     }
 
-    if (!channel_list[channelInvited_name]/*cherche si il existe*/)
+    if (!channel_list[channelInvited_name])
     {
         send_msg(client_fd, "IRC ERR_CHANNEL_DOESNOTEXIST");
         return ;
@@ -221,17 +239,16 @@ void                Server::invite_user(int client_fd, std::string demand)
     }
 
     std::string msg = ":" + client_list[client_fd]->get_nickname() + "!" + client_list[client_fd]->get_username() + "@host INVITE " + client_list[invitedClient]->get_nickname() + ":" + channelInvited_name;
-    std::string msg2 = ":server_name 341 " + client_list[client_fd]->get_nickname() + " " + client_list[invitedClient]->get_nickname() + " " + channelInvited_name;
+    std::string msg2 = "IRC_name 341 " + client_list[client_fd]->get_nickname() + " " + client_list[invitedClient]->get_nickname() + " " + channelInvited_name;
     send_msg(invitedClient, msg);
     send_msg(client_fd, msg2);
-    //if (client_list[invitedClient])
-
    client_list[invitedClient]->set_invitedChannel(channel_list[channelInvited_name]);
 }
 
 void	Server::change_topic(int client_fd, std::string demand)
 {
-	std::vector<char *> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 3); // ici on peux ajouter pour le commentaire a voir comment implemaneter -TODO
+	std::vector<std::string> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 3);
+    
     buffer.erase(buffer.begin());
 
     if (buffer.size() < 1)
@@ -241,8 +258,9 @@ void	Server::change_topic(int client_fd, std::string demand)
     }
 	if (buffer.size() == 1)
 	{
-		std::string msg = "IRC TOPIC : " + channel_list[buffer[1]]->get_topic();
+		std::string msg = "IRC TOPIC : " +  channel_list[buffer[1]]->get_topic();
 		send_msg(client_fd, msg);
+        ;
 		return ;
 	}
 
@@ -250,6 +268,7 @@ void	Server::change_topic(int client_fd, std::string demand)
 	if (channel_list[channelName]->get_operator() != client_fd && channel_list[channelName]->get_topic_changement() == false)
 	{
 		send_msg(client_fd, "IRC You cannot change the topic");
+        ;
 		return ;
 	}
 	std::cout << "len of buffer : " << buffer.size() << std::endl;
@@ -258,12 +277,12 @@ void	Server::change_topic(int client_fd, std::string demand)
 		channel_list[buffer[0]]->set_topic(buffer[1]);
 		send_msg(client_fd, "IRC Topic changed successfully");
 	}
-	
+    ;
 }
 
-void	Server::help(int client_fd, std::string demand)
+/*void	Server::help(int client_fd, std::string demand)
 {
-	std::vector<char *> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 2);
+	std::vector<std::string> buffer = parse_request((char*)(demand.c_str()), " :*\r\n", 2);
 
     if (buffer.size() == 1)
     {
@@ -300,5 +319,6 @@ void	Server::help(int client_fd, std::string demand)
         send_msg(client_fd, "IRC (admin only) /end server 1234987\n Shuts down the server immediately");	
 	else
         send_msg(client_fd, "IRC UNKOWN COMMAND");
+    ;
 	return;
-}
+}*/

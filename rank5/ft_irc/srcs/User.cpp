@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
+#include "../includes/User.hpp"
 
 /*-------Construction-------*/
 
@@ -20,11 +20,11 @@ User::User(int client_fd, struct sockaddr_in client_adress)
 	this->client_adress = client_adress;
 	this->authentification = false;
 	this->_operator = false;
+
 }
 User::~User()
 {
-	
-	//std::cout << "destructor" << std::endl;
+
 }
 /*------Getters*/
 
@@ -90,7 +90,7 @@ void	User::set_auth(bool auth)
 	this->authentification = auth;
 }
 
-void	User::set_username(std::vector<char *> _username)
+void	User::set_username(std::vector<std::string> _username)
 {
 	this->username = _username[0];
 	this->fullname = _username[2];
@@ -178,7 +178,7 @@ void	User::remove_op_channel(Channel *channel)
 	else if (_operator == true && isOp_onChannel.size() == 1)
 	{
 		channel->kick_everyone();
-		isOp_onChannel.erase(channel->get_name()); // Need to delete the whole channel and kick everyone
+		isOp_onChannel.erase(channel->get_name());
 	}
 	
 }

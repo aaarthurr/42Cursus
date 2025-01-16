@@ -2,25 +2,25 @@
 
 void Server::handle_mod(std::string buffer, int client_fd)
 {
-	std::vector<char *> tab = parse_request((char *)buffer.c_str(), " \r\n", 4);
+	std::vector<std::string> tab = parse_request((char *)buffer.c_str(), " \r\n", 4);
 
 	if (tab.size() < 3 || tab.size() > 4)
 	{
 		send_msg(client_fd, "Syntaxe : MODE <target> <modes> [<mode params>]");
 		return;
 	}
-	std::cout << "TARGET : " << tab[1] << "\n";
+	std::string mode(tab[2]);
 	if (channel_list.find(tab[1]) == channel_list.end())
 	{
 		send_msg(client_fd, "IRC ERR_CHANNELDOESNTEXIST");
+		;
 		return;
 	}
-	else if (channel_list[tab[1]]->get_operator() != client_fd)
+	else if (mode != "+b" && channel_list[tab[1]]->get_operator() != client_fd)
 	{
 		send_msg(client_fd, "IRC ERR_DOESTHAVEOPRIGHTS");
 		return;
 	}
-	std::string mode(tab[2]);
 	if (mode == "+i")
 	{
 		if (!channel_list[tab[1]]->is_invite_only())
@@ -38,7 +38,6 @@ void Server::handle_mod(std::string buffer, int client_fd)
 	}
 	else if (mode == "+t")
 	{
-//-TODO
 		if (channel_list[tab[1]]->get_operator() == client_fd)
 		{
 			if (channel_list[tab[1]]->get_topic_changement() == false)
@@ -55,6 +54,7 @@ void Server::handle_mod(std::string buffer, int client_fd)
 		else
 		{
 			send_msg(client_fd, "IRC you are not the operator");
+			;
 			return ;
 		}
 
@@ -67,13 +67,23 @@ void Server::handle_mod(std::string buffer, int client_fd)
 	}
 	else if (mode == "+o")
 	{
-		channel_list[tab[1]]->set_operator(client_fd, tab[3]);
-		//client_list[client_fd]->remove_op_channel(channel_list[tab[1]]); a verifier
+		if (tab.size() > 3)
+		{
+			std::string msg = "IRC You are setting : ";
+			msg += tab[3];
+			msg += " as a new operator";
+			send_msg(client_fd, msg);
+			channel_list[tab[1]]->set_operator(client_fd, tab[3]);
+			client_list[client_fd]->remove_op_channel(channel_list[tab[1]]);
+		}
+		else
+			send_msg(client_fd, "IRC ERROR, USAGE : /MODE #channel -o <USER>");
+		
 	}
 	else if (mode == "+l")
 	{
 		if (tab.size() > 3)
-			channel_list[tab[1]]->set_user_limit(std::atoi(tab[3]));
+			channel_list[tab[1]]->set_user_limit(std::atoi(tab[3].c_str()));
 		else
 			channel_list[tab[1]]->set_user_limit(0);
 	}

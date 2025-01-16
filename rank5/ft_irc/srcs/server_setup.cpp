@@ -19,11 +19,11 @@ void	Server::add_client(void)
     fds.push_back(client_pollfd);
 }
 
-void	Server::set_nickname(std::string nickname_str, int client_fd)//verifier message a renvoyer si pas de nick ou changement de nick ou nick setup
+void	Server::set_nickname(std::string nickname_str, int client_fd)
 {
-    std::vector<char *> buffer = parse_request((char *)nickname_str.c_str(), " \r\n", 2);
+    std::vector<std::string> buffer = parse_request((char *)nickname_str.c_str(), " \r\n", 2);
+    
     buffer.erase(buffer.begin());
-   // std::cout << "BUFFER: " << buffer[0] << std::endl;
     std::string str(buffer[0]);
 
     if (unavailable_nick.find(str) != unavailable_nick.end())
@@ -31,12 +31,13 @@ void	Server::set_nickname(std::string nickname_str, int client_fd)//verifier mes
         send_msg(client_list[client_fd]->get_client_fd(), "IRC ERR_NICKNAMEINUSE");
         return ;
     }
-    else if (str.length() > 9 || str.empty())
+    else if (str.length() > 9 || str.empty() || str.find(' ') != std::string::npos)
     {
         std::string msg= "IRC 432 ";
 
         msg.append(str);
         msg.append(" :Erroneous nickname");
+        msg = remove_endl(msg, '\n');
         send_msg(client_list[client_fd]->get_client_fd(), msg);
         return ;
     }
@@ -48,12 +49,12 @@ void	Server::set_nickname(std::string nickname_str, int client_fd)//verifier mes
         send_msg(client_fd, msg);
     }
     client_list[client_fd]->set_nickname(str);
-    //leak to correct -TODO
 }
 
-void	Server::set_username(std::string username_str, int client_fd)//verifier message a renvoyer si pas de user ou changement de user ou user setup
+void	Server::set_username(std::string username_str, int client_fd)
 {
-    std::vector<char *> buffer = parse_request((char*)(username_str.c_str()), " :*\r\n", 5);
+    std::vector<std::string> buffer = parse_request((char *)username_str.c_str(), " :*\r\n", 5);
+    
     
     buffer.erase(buffer.begin());
     if (username_str.empty() || buffer.size() < 3)
@@ -67,21 +68,16 @@ void	Server::set_username(std::string username_str, int client_fd)//verifier mes
         return ;
     }
     client_list[client_fd]->set_username(buffer);
-    //leak to correct -TODO
-    //std::cout << "USER has been setup with:" << std::endl << "Nickname: " 
-    //            << client_list[client_fd]->get_nickname() << std::endl
-    //            << "Username : " << client_list[client_fd]->get_username() << std::endl
-    //            << "Fullname : " << client_list[client_fd]->get_fullname() << std::endl;
+
 }
 
-void	Server::auth_client(int client_fd, std::string _password)//-TODO si pas de nickname peut pas s'autenthifier
+void	Server::auth_client(int client_fd, std::string _password)
 {
-    std::vector<char *> buffer = parse_request((char *)_password.c_str(), " :\r\n", 2);
-
+    std::vector<std::string> buffer = parse_request((char *)_password.c_str(), " :\r\n", 2);
+    
     buffer.erase(buffer.begin());
     _password.erase(_password.begin());
     _password = buffer[0];
-   // std::cout << "PASSWORD: " << _password << std::endl;
     if (_password.empty())
     {
         send_msg(client_fd, "IRC ERR_NEEDMOREPARAMS");
@@ -94,4 +90,5 @@ void	Server::auth_client(int client_fd, std::string _password)//-TODO si pas de 
 	}
 	send_msg(client_fd, "IRC Welcome !");
     client_list[client_fd]->set_auth(true);
+    ;
 }

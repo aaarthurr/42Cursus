@@ -1,7 +1,11 @@
 #include "Channel.hpp"
+std::string    remove_endl(std::string str, char delim);
 
 Channel::Channel(std::string name_, std::string topic_, int operator_) : name(name_), topic(topic_), _operator(operator_), is_on_invite(0)
 {
+	this->topic_changement = false;
+	this->is_on_invite = false;
+	this->user_limit = 0;
 }
 
 Channel::Channel(std::string name_) : name(name_)
@@ -16,9 +20,12 @@ bool	Channel::is_invite_only()
 
 void Channel::set_topic(std::string _topic)
 {
+	_topic = remove_endl(_topic, '\n');
+	_topic = remove_endl(_topic, ':');
+	_topic = remove_endl(_topic, '*');
 	std::string msg = name + " Topic changed from " + topic + " to " + _topic;
 	topic =_topic;
-	send_to_all(0, msg);
+	send_to_all(-1, msg);
 }
 
 std::string		Channel::get_name() const
@@ -101,12 +108,17 @@ void					Channel::send_to_all(int client_fd, std::string message)
 void				Channel::kick_everyone()
 {
 	for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); it++)
+	{
+        std::string quit = ":" + it->second->get_nickname() + "!" + it->second->get_username() + "@host PART :" + name;
+		send_msg(it->first, quit);
 		it->second->remove_channel(name);
+
+	}
 }
 
 std::string	Channel::get_client_str(std::string nickname)
 {
-	std::string msg = ":server 353 " + nickname + " = " + name + " :";
+	std::string msg = "IRC 353 " + nickname + " = " + name + " :";
 	for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); it++)
 	{
 		if (it->first == _operator)
@@ -114,11 +126,10 @@ std::string	Channel::get_client_str(std::string nickname)
 		msg += it->second->get_nickname();
 		msg += " ";
 	}
-    //:server-name 353 nickname = #channel-name :@user1 +user2 user3
 	return (msg);
 }
 
-int	get_client_fd_by_nickname(std::string _nickname, std::map<int, User *> client_list)//-TODO faire un fonction commune a toute les fichiers
+int	get_client_fd_by_nickname(std::string _nickname, std::map<int, User *> client_list)
 {
 	for (std::map<int, User *>::iterator it = client_list.begin(); it != client_list.end(); it++)
 	{
